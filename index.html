@@ -14,6 +14,7 @@
             --white: #FFFFFF;
             --whatsapp-green: #25D366;
             --whatsapp-dark: #128C7E;
+            --spotify-green: #1DB954;
         }
 
         * {
@@ -308,6 +309,16 @@
             background-color: var(--whatsapp-dark) !important;
         }
 
+        .btn-spotify {
+            background-color: var(--spotify-green) !important;
+            color: white !important;
+            font-weight: 700 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+        }
+
         .password-wrapper {
             position: relative;
             margin-bottom: 12px;
@@ -482,6 +493,14 @@
             font-weight: 600;
             font-size: 0.8rem;
         }
+
+        .podcast-iframe-container {
+            border-radius: 12px;
+            overflow: hidden;
+            background: #121212;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
 <body>
@@ -498,7 +517,7 @@
                 <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('noticias', event)">📰 Noticias & Blog</a></li>
                 <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('colegio', event)">🎓 Colegio Online</a></li>
                 <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('comunidad', event)">💬 Chateo Comunidad</a></li>
-                <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('podcasts', event)">🎙️ Podcasts & Redes</a></li>
+                <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('podcasts', event)">🎙️ Radio Red Turística</a></li>
                 <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('asociacion', event)">🤝 Directorio Asociación</a></li>
                 <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('promos', event)">🏷️ Promociones</a></li>
                 <li id="nav-admin-item" style="display: none;"><a href="#" onclick="switchTab('admin', event)" style="background: #D69E2E; color: white;">⚙️ Panel Admin</a></li>
@@ -721,18 +740,115 @@
             </div>
         </div>
 
-        <!-- Podcasts & Redes -->
+        <!-- RADIO RED TURÍSTICA - HDT (CON REPRODUCTORES OFICIALES DE SPOTIFY) -->
         <div id="podcasts" class="section-view">
-            <h2 style="font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color);">Centro Multimedia y Redes Principales</h2>
-            <div class="card-grid">
-                <div class="card">
-                    <h3>Podcast en Spotify</h3>
-                    <p>Escucha las transmisiones de Turistalking directamente en Spotify.</p>
-                    <a href="https://open.spotify.com/show/7zwDtF4cs6htTV065wFIgd" target="_blank" class="btn-action">Abrir en Spotify</a>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <div>
+                    <h2 style="font-size: 1.3rem; color: var(--primary-color);">Radio Red Turística - HDT</h2>
+                    <p style="font-size: 0.9rem; color: var(--neutral-gray);">Escucha y reproduce los programas oficiales transmitidos en Spotify.</p>
                 </div>
+                <a href="https://open.spotify.com/show/7zwDtF4cs6htTV065wFIgd" target="_blank" class="btn-action btn-spotify" style="width: auto; padding: 10px 18px; margin: 0;">
+                    🟢 Abrir Canal en Spotify
+                </a>
+            </div>
+
+            <div class="card-grid">
+                <!-- 1. T3 E5 -->
+                <div class="card" style="border-top-color: var(--spotify-green);">
+                    <h3>Temporada 3 Episodio 5</h3>
+                    <p>La realidad detrás del "Certificate como Agente de Viajes"</p>
+                    <div class="podcast-iframe-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/76SYrlHkShkMOmoZwDmPxI?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                </div>
+
+                <!-- 2. T3 E4 -->
+                <div class="card" style="border-top-color: var(--spotify-green);">
+                    <h3>Temporada 3 Episodio 4</h3>
+                    <p>La Proyección Turística & Gastronómica de Victoria de Durango</p>
+                    <div class="podcast-iframe-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/2gvJeVfBBrEEqhGZRCAfYg?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                </div>
+
+                <!-- 3. T3 E3 -->
+                <div class="card" style="border-top-color: var(--spotify-green);">
+                    <h3>Temporada 3 Episodio 3</h3>
+                    <p>El Crecimiento Desmedido de las Agencias de Viajes</p>
+                    <div class="podcast-iframe-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/0KFR9xGXLMI4kJ05PnIQ69?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                </div>
+
+                <!-- 4. T3 E2 -->
+                <div class="card" style="border-top-color: var(--spotify-green);">
+                    <h3>Temporada 3 Episodio 2</h3>
+                    <p>El Impacto de Estudiar Turismo</p>
+                    <div class="podcast-iframe-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/2lzDGhyYkznf4ijfK6Q9AC?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                </div>
+
+                <!-- 5. T3 E1 -->
+                <div class="card" style="border-top-color: var(--spotify-green);">
+                    <h3>Temporada 3 Episodio 1</h3>
+                    <p>Ser Maestro de Turismo con Vocación</p>
+                    <div class="podcast-iframe-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/50djtpvwCSDS83EPvgjtNq?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                </div>
+
+                <!-- 6. Episodio Promocional -->
+                <div class="card" style="border-top-color: var(--spotify-green);">
+                    <h3>Episodio Promocional</h3>
+                    <p>Cuando Viajas, ¿Ya sabes dónde Hospedarte? - Hotel Plaza Morelia</p>
+                    <div class="podcast-iframe-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/4bMa2wk7xCyPR4a8iVYoCk?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                </div>
+
+                <!-- 7. T2 E6 -->
+                <div class="card" style="border-top-color: var(--spotify-green);">
+                    <h3>Temporada 2 Episodio 6</h3>
+                    <p>Y Tú ¿Regalas tu trabajo? Entorno comercial del Sector Turístico</p>
+                    <div class="podcast-iframe-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/3Qmsj2cxKTISRRWlwa2vc1?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                </div>
+
+                <!-- 8. T2 E5 -->
+                <div class="card" style="border-top-color: var(--spotify-green);">
+                    <h3>Temporada 2 Episodio 5</h3>
+                    <p>Sector Público VS Sector Privado en Turismo</p>
+                    <div class="podcast-iframe-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/4J2SuIzpGMC4GXb7DQmxq5?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                </div>
+
+                <!-- 9. T2 E4 -->
+                <div class="card" style="border-top-color: var(--spotify-green);">
+                    <h3>Temporada 2 Episodio 4</h3>
+                    <p>La realidad de las Asociaciones Turísticas de México</p>
+                    <div class="podcast-iframe-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/4VvKoipGnEbDYE44XN5REH?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                </div>
+
+                <!-- 10. T2 E3 -->
+                <div class="card" style="border-top-color: var(--spotify-green);">
+                    <h3>Temporada 2 Episodio 3</h3>
+                    <p>Mitos y Realidades del Turismo</p>
+                    <div class="podcast-iframe-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/2vFqOl5nPysJHDxvpH2oaw?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Redes sociales adicionales -->
+            <div class="card-grid" style="margin-top: 20px;">
                 <div class="card">
                     <h3>Facebook Principal</h3>
-                    <p>Sigue nuestras transmisiones en vivo y anuncios en la página de Facebook.</p>
+                    <p>Sigue nuestras transmisiones en vivo y anuncios en la página oficial.</p>
                     <a href="https://m.facebook.com/HaciendoDelTurismoOficial/" target="_blank" class="btn-action">Visitar Facebook</a>
                 </div>
             </div>
@@ -990,7 +1106,7 @@
                 'noticias': 'Noticias y Blog Oficial',
                 'colegio': 'Colegio de Turismo Online',
                 'comunidad': 'Muro de Debates Profesionales',
-                'podcasts': 'Podcast en Spotify y Facebook Principal',
+                'podcasts': 'Radio Red Turística - HDT',
                 'asociacion': 'Directorio de la Asociación',
                 'promos': 'Últimas Promociones',
                 'admin': 'Panel de Control de Administración'
@@ -1206,7 +1322,6 @@
             }
         };
 
-        /* PANEL ADMIN: MUESTRA TODOS LOS REGISTROS Y PERMITE APROBAR/DENEGAR */
         function escucharRegistrosAdmin() {
             const tbody = document.getElementById('admin-table-body');
             tbody.innerHTML = `<tr><td colspan="7" style="text-align: center;">Cargando padrón de usuarios...</td></tr>`;
