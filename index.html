@@ -263,12 +263,12 @@
                 <li><a href="#" onclick="switchTab('podcasts', event)">🎙️ Podcasts & Redes</a></li>
                 <li><a href="#" onclick="switchTab('asociacion', event)">🤝 Directorio Asociación</a></li>
                 <li><a href="#" onclick="switchTab('promos', event)">🏷️ Promociones</a></li>
-                <!-- Pestaña oculta para usuarios normales -->
+                <!-- Pestaña reservada únicamente para administradores -->
                 <li id="nav-admin-item" style="display: none;"><a href="#" onclick="switchTab('admin', event)" style="background: #D69E2E; color: white;">⚙️ Panel Admin</a></li>
             </ul>
         </div>
         <div style="font-size: 0.75rem; color: var(--neutral-gray); text-align: center;">
-            Firebase Auth + Firestore
+            Firebase Auth + Google Drive
         </div>
     </aside>
 
@@ -281,7 +281,7 @@
             </div>
         </header>
 
-        <!-- 0. Formulario de Login -->
+        <!-- Formulario de Login -->
         <div id="login" class="section-view active">
             <div class="card" style="border-top-color: var(--primary-color); max-width: 450px; margin: 0 auto;">
                 <h3>Acceso a Miembros</h3>
@@ -303,7 +303,7 @@
             </div>
         </div>
 
-        <!-- 1. Registro de Usuario -->
+        <!-- Registro de Usuario y Subida de Comprobante -->
         <div id="inicio" class="section-view">
             <div class="card" style="border-top-color: var(--primary-color); max-width: 600px; margin: 0 auto;">
                 <h3>Registro de Miembro Oficial</h3>
@@ -344,7 +344,7 @@
             </div>
         </div>
 
-        <!-- 2. Noticias -->
+        <!-- Noticias -->
         <div id="noticias" class="section-view">
             <h2 style="font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color);">Actualidad y Blog del Sector</h2>
             <div class="card-grid">
@@ -356,7 +356,7 @@
             </div>
         </div>
 
-        <!-- 3. Colegio de Turismo Online -->
+        <!-- Colegio Online -->
         <div id="colegio" class="section-view">
             <h2 style="font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color);">Capacitaciones y Talleres Exclusivos</h2>
             <div class="card-grid">
@@ -368,7 +368,7 @@
             </div>
         </div>
 
-        <!-- 4. Chateo Comunidad -->
+        <!-- Chateo Comunidad -->
         <div id="comunidad" class="section-view">
             <h2 style="font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color);">Muro de Debates Profesionales</h2>
             <div class="card">
@@ -376,7 +376,7 @@
             </div>
         </div>
 
-        <!-- 5. Podcasts & Redes -->
+        <!-- Podcasts & Redes -->
         <div id="podcasts" class="section-view">
             <h2 style="font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color);">Centro Multimedia y Redes Principales</h2>
             <div class="card-grid">
@@ -393,7 +393,7 @@
             </div>
         </div>
 
-        <!-- 6. Directorio Asociación -->
+        <!-- Directorio Asociación -->
         <div id="asociacion" class="section-view">
             <h2 style="font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color);">Asociación de Profesionales</h2>
             <div class="card">
@@ -402,7 +402,7 @@
             </div>
         </div>
 
-        <!-- 7. Promociones -->
+        <!-- Promociones -->
         <div id="promos" class="section-view">
             <h2 style="font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color);">Beneficios Especiales</h2>
             <div class="card">
@@ -411,7 +411,7 @@
             </div>
         </div>
 
-        <!-- 8. Panel de Administración Privado -->
+        <!-- Panel de Administración Oculto para Usuarios Regular -->
         <div id="admin" class="section-view">
             <h2 style="font-size: 1.3rem; margin-bottom: 5px; color: var(--primary-color);">Panel de Control de Administración</h2>
             <p style="font-size: 0.9rem; margin-bottom: 15px; color: var(--neutral-gray);">Listado de solicitudes de acceso en tiempo real.</p>
@@ -472,12 +472,13 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        const DRIVE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxlAapHmz_XsxdlLWTodSJQ-YJwhFlnXa5DAD3fsZu1ABw2KAv08NYHebQ11o7Cyj8S/exec';
+        // URL Oficial de Apps Script Integrada
+        const DRIVE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxEnDbG5Uzh8YJ9Wbu0FnGflu9wit4SAwj7k5E1RqPSzTh1SCFzVbiTVFO4OWZaasLr/exec';
 
         let currentUserData = null;
         let unsubscribeAdminListener = null;
 
-        // Monitoreo del estado del usuario
+        // Listener de autenticación de usuario
         onAuthStateChanged(auth, async (user) => {
             const badgeText = document.getElementById('badge-text');
             const btnLogout = document.getElementById('btn-logout');
@@ -492,7 +493,6 @@
 
                     badgeText.innerText = `${user.email} (${rol === 'admin' ? 'ADMINISTRADOR' : estatus})`;
                     
-                    // Solo mostrar el menú de Admin si el usuario tiene rol 'admin'
                     if (rol === 'admin') {
                         navAdminItem.style.display = 'block';
                         badgeText.parentElement.style.backgroundColor = '#005776';
@@ -511,12 +511,11 @@
             }
         });
 
-        // Cambiar entre pestañas con control de protección
+        // Cambio de vistas protegidas
         window.switchTab = function(tabId, evt) {
-            // Protección: Si intenta entrar a Admin sin ser admin
             if (tabId === 'admin') {
                 if (!currentUserData || currentUserData.rol !== 'admin') {
-                    alert("Acceso denegado: Esta área está reservada únicamente para administradores.");
+                    alert("Acceso restringido: Esta sección requiere perfil de Administrador.");
                     return;
                 }
             }
@@ -561,7 +560,7 @@
             const password = document.getElementById('login-pass').value;
             const btn = document.getElementById('btn-login-submit');
 
-            btn.innerText = "Verificando...";
+            btn.innerText = "Iniciando sesión...";
             btn.disabled = true;
 
             try {
@@ -578,12 +577,12 @@
                         alert(`¡Bienvenido, ${data.nombre}!`);
                         switchTab('colegio');
                     } else {
-                        alert(`Tu cuenta está en revisión. Un administrador validará tu comprobante en breve.`);
+                        alert(`Tu cuenta se encuentra en revisión. Un administrador aprobará tu acceso en breve.`);
                         switchTab('noticias');
                     }
                 }
             } catch (err) {
-                console.error("Error al iniciar sesión:", err);
+                console.error("Error Login:", err);
                 alert("Correo o contraseña incorrectos.");
             } finally {
                 btn.innerText = "Entrar a la Plataforma";
@@ -591,14 +590,14 @@
             }
         };
 
-        // Cerrar Sesión
+        // Logout
         window.handleLogout = async function() {
             await signOut(auth);
             alert("Has cerrado sesión.");
             switchTab('login');
         };
 
-        // Registro de Usuarios Nuevos (Por defecto se registran como usuarios normales)
+        // Registro de Usuario + Subida a Drive + Guardado en Firestore
         window.handleUserRegistration = async function(e) {
             e.preventDefault();
             
@@ -611,12 +610,12 @@
             const btnSubmit = document.getElementById('btn-submit');
 
             if (fileInput.files.length === 0) {
-                alert("Por favor selecciona tu comprobante.");
+                alert("Selecciona tu comprobante.");
                 return;
             }
 
             const file = fileInput.files[0];
-            btnSubmit.innerText = "Registrando...";
+            btnSubmit.innerText = "Subiendo archivo y registrando...";
             btnSubmit.disabled = true;
 
             try {
@@ -650,16 +649,16 @@
                             plan: plan,
                             comprobanteUrl: driveUrl,
                             estatus: "En Revisión",
-                            rol: "usuario", // Rol por defecto
+                            rol: "usuario",
                             fechaRegistro: serverTimestamp()
                         });
 
-                        alert("¡Cuenta registrada con éxito! Tu comprobante está en revisión por el administrador.");
+                        alert("¡Cuenta registrada con éxito! Tu comprobante está en revisión por la administración.");
                         document.getElementById('register-form').reset();
                         switchTab('login');
 
                     } catch (uploadErr) {
-                        console.error("Error guardando datos:", uploadErr);
+                        console.error("Error al procesar registro:", uploadErr);
                         switchTab('login');
                     } finally {
                         btnSubmit.innerText = "Crear Cuenta y Registrar Membresía";
@@ -675,10 +674,10 @@
             }
         };
 
-        // Escuchar datos solo si es Admin
+        // Escuchar datos del Panel Admin
         function escucharRegistrosAdmin() {
             const tbody = document.getElementById('admin-table-body');
-            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">Cargando registros...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">Cargando usuarios registrados...</td></tr>`;
 
             const q = query(
                 collection(db, "usuarios"), 
@@ -690,7 +689,7 @@
                 tbody.innerHTML = "";
 
                 if (snapshot.empty) {
-                    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">No hay registros pendientes.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">No hay usuarios registrados aún.</td></tr>`;
                     return;
                 }
 
