@@ -405,7 +405,7 @@
             overflow: hidden;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             margin-top: 15px;
-            min-width: 600px;
+            min-width: 650px;
         }
 
         th, td {
@@ -447,6 +447,41 @@
             margin-bottom: 15px;
             display: block;
         }
+
+        .status-pill {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            display: inline-block;
+        }
+
+        .status-pending { background: #FEFCBF; color: #744210; }
+        .status-approved { background: #C6F6D5; color: #22543D; }
+        .status-rejected { background: #FED7D7; color: #742A2A; }
+
+        .btn-approve {
+            background: #38A169;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+
+        .btn-reject {
+            background: #E53E3E;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
@@ -458,10 +493,7 @@
                 <h1>Haciendo del Turismo</h1>
             </div>
             <ul class="nav-links" id="main-nav-list">
-                <!-- Visibles solo cuando NO está autenticado -->
                 <li id="nav-access-item"><a href="#" onclick="switchTab('inicio', event)" class="active">🏠 Acceso & Registro</a></li>
-                
-                <!-- Pestañas visibles para miembros registrados y aprobados -->
                 <li class="protected-nav" id="nav-profile-item" style="display: none;"><a href="#" onclick="switchTab('perfil', event)">👤 Mi Perfil</a></li>
                 <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('noticias', event)">📰 Noticias & Blog</a></li>
                 <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('colegio', event)">🎓 Colegio Online</a></li>
@@ -469,8 +501,6 @@
                 <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('podcasts', event)">🎙️ Podcasts & Redes</a></li>
                 <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('asociacion', event)">🤝 Directorio Asociación</a></li>
                 <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('promos', event)">🏷️ Promociones</a></li>
-                
-                <!-- Pestaña reservada para Administradores -->
                 <li id="nav-admin-item" style="display: none;"><a href="#" onclick="switchTab('admin', event)" style="background: #D69E2E; color: white;">⚙️ Panel Admin</a></li>
             </ul>
         </div>
@@ -492,7 +522,7 @@
             </div>
         </header>
 
-        <!-- ESPACIO DE ACCESO Y REGISTRO -->
+        <!-- ACCESO / REGISTRO -->
         <div id="inicio" class="section-view active">
             <div class="auth-toggle-container">
                 <button class="auth-toggle-btn active" id="btn-toggle-login" onclick="toggleAuthMode('login')">🔑 Iniciar Sesión</button>
@@ -563,7 +593,7 @@
                             <option value="Plan Anual (50% Descuento)">Plan Anual (50% Descuento)</option>
                         </select>
 
-                        <label for="payment-file">Comprobante de Pago (Imagen o PDF, máx. 5MB):</label>
+                        <label for="payment-file">Comprobante de Pago (Imagen o PDF):</label>
                         <input type="file" id="payment-file" accept="image/*,application/pdf" required>
                         
                         <button type="submit" class="btn-action" id="btn-submit">Enviar Registro y Comprobante</button>
@@ -572,21 +602,21 @@
             </div>
         </div>
 
-        <!-- PANTALLA DE ESPERA DE CONFIRMACIÓN -->
+        <!-- PANTALLA DE ESPERA -->
         <div id="espera-aprobacion" class="section-view">
             <div class="card" style="max-width: 550px; margin: 40px auto; text-align: center; border-top-color: #D69E2E;">
                 <h3 style="color: #D69E2E; font-size: 1.3rem; margin-bottom: 10px;">⏳ Registro Recibido - En Revisión</h3>
                 <p style="font-size: 0.95rem; color: #4A5568; line-height: 1.6;">
-                    Hemos recibido correctamente tu comprobante de pago. Tu solicitud se encuentra en proceso de validación por parte del equipo administrativo.
+                    Hemos recibido tu información correctamente. Tu comprobante de pago ha sido guardado en Google Drive y tu cuenta se encuentra en revisión.
                 </p>
                 <div style="background: #FEFCBF; border: 1px solid #FAF089; padding: 12px; border-radius: 6px; margin: 20px 0; font-size: 0.85rem; color: #744210;">
-                    📩 <strong>Notificación por Correo:</strong> Te enviaremos un correo electrónico automáticamente cuando tu pago sea confirmado para darte el acceso completo.
+                    📩 <strong>Notificación por Correo:</strong> Una vez aprobado tu pago, recibirás la confirmación directamente en tu correo electrónico.
                 </div>
                 <button class="btn-action" onclick="handleLogout()" style="background: #E53E3E; max-width: 250px;">Cerrar Sesión</button>
             </div>
         </div>
 
-        <!-- PERFIL Y AJUSTES DE USUARIO -->
+        <!-- PERFIL -->
         <div id="perfil" class="section-view">
             <div class="card" style="max-width: 600px; margin: 0 auto; border-top-color: var(--primary-color);">
                 <h3>Ajustes de Perfil de Miembro</h3>
@@ -726,12 +756,12 @@
             </div>
         </div>
 
-        <!-- Panel de Administración -->
+        <!-- PANEL DE CONTROL ADMIN -->
         <div id="admin" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
                 <div>
                     <h2 style="font-size: 1.3rem; color: var(--primary-color);">Panel de Control de Administración</h2>
-                    <p style="font-size: 0.9rem; color: var(--neutral-gray);">Gestión de solicitudes y asignación de roles de usuarios.</p>
+                    <p style="font-size: 0.9rem; color: var(--neutral-gray);">Abre los comprobantes en Google Drive y aprueba o rechaza solicitudes.</p>
                 </div>
                 <a href="https://drive.google.com/drive/folders/1tTQhLn8aEi9Z136eECQnBdvSy-lrY2Wo?usp=sharing" target="_blank" class="btn-action" style="width: auto; padding: 8px 16px; margin: 0; background: #38A169;">📂 Abrir Carpeta de Drive</a>
             </div>
@@ -739,17 +769,18 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Nombre / Agencia</th>
+                            <th>Usuario / Agencia</th>
                             <th>Correo Electrónico</th>
                             <th>Plan</th>
-                            <th>Comprobante</th>
+                            <th>Comprobante en Drive</th>
+                            <th>Estatus Actual</th>
                             <th>Rol Asignado</th>
-                            <th>Acción</th>
+                            <th>Acciones Directas</th>
                         </tr>
                     </thead>
                     <tbody id="admin-table-body">
                         <tr>
-                            <td colspan="6" style="text-align: center;">Cargando usuarios registrados...</td>
+                            <td colspan="7" style="text-align: center;">Cargando registros...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -775,10 +806,7 @@
             updateDoc, 
             addDoc,
             serverTimestamp, 
-            query, 
             collection, 
-            orderBy, 
-            limit, 
             onSnapshot 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
@@ -833,7 +861,6 @@
             }
         };
 
-        /* CONTROL CENTRAL DE SESIÓN, BLOQUEO DE ACCESO Y REVISIÓN */
         onAuthStateChanged(auth, async (user) => {
             const badgeText = document.getElementById('badge-text');
             const btnLogoutSidebar = document.getElementById('btn-logout-sidebar');
@@ -867,7 +894,6 @@
                     }
                 }
 
-                // Ocultar pestaña de Registro/Inicio ya que la sesión está iniciada
                 navAccessItem.style.display = 'none';
                 btnLogoutSidebar.style.display = 'block';
 
@@ -884,7 +910,6 @@
 
                 badgeText.innerText = `${user.email} (${badgeRole})`;
 
-                // VALIDACIÓN DE ESTATUS: Si no ha sido Aprobado, bloquear navegación privada
                 if (estatus !== 'Aprobado' && rol !== 'admin') {
                     protectedNavs.forEach(nav => nav.style.display = 'none');
                     navAdminItem.style.display = 'none';
@@ -893,7 +918,6 @@
                     return;
                 }
 
-                // SI ESTÁ APROBADO: Mostrar menú completo
                 protectedNavs.forEach(nav => nav.style.display = 'block');
 
                 if (rol === 'admin') {
@@ -914,7 +938,6 @@
                     chatWarning.style.display = 'block';
                 }
 
-                // Llenar datos de perfil
                 document.getElementById('profile-name').value = currentUserData.nombre || '';
                 document.getElementById('profile-agency').value = currentUserData.agencia || '';
                 if (currentUserData.fotoUrl) {
@@ -922,7 +945,6 @@
                 }
 
             } else {
-                // Usuario NO Autenticado
                 currentUserData = null;
                 navAccessItem.style.display = 'block';
                 protectedNavs.forEach(nav => nav.style.display = 'none');
@@ -1048,6 +1070,7 @@
             switchTab('inicio');
         };
 
+        /* PROCESO DE SUBIDA A GOOGLE DRIVE + GUARDA EN FIRESTORE */
         window.handleUserRegistration = async function(e) {
             e.preventDefault();
             
@@ -1070,67 +1093,69 @@
             }
 
             if (fileInput.files.length === 0) {
-                alert("Selecciona tu comprobante.");
+                alert("Selecciona la imagen de tu comprobante.");
                 return;
             }
 
             const file = fileInput.files[0];
-            btnSubmit.innerText = "Subiendo archivo a Google Drive...";
+            btnSubmit.innerText = "Subiendo comprobante a Google Drive...";
             btnSubmit.disabled = true;
 
             try {
+                // 1. Crear usuario en Firebase Auth
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const uid = userCredential.user.uid;
 
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
+                // 2. Convertir imagen a Base64 para enviar a Apps Script
+                const base64Content = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.onerror = error => reject(error);
+                    reader.readAsDataURL(file);
+                });
 
-                reader.onload = async function () {
-                    try {
-                        const base64Content = reader.result.split(',')[1];
-
-                        const response = await fetch(DRIVE_WEB_APP_URL, {
-                            method: 'POST',
-                            body: JSON.stringify({
-                                action: "uploadFile",
-                                fileName: `${uid}_${file.name}`,
-                                mimeType: file.type,
-                                fileData: base64Content
-                            })
-                        });
-
-                        const result = await response.json();
-                        const driveUrl = result.status === 'success' ? result.fileUrl : 'Error al subir a Drive';
-
-                        const esAdmin = email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
-
-                        await setDoc(doc(db, "usuarios", uid), {
-                            uid: uid,
-                            nombre: name,
-                            agencia: agency,
-                            email: email,
-                            plan: plan,
-                            comprobanteUrl: driveUrl,
-                            estatus: esAdmin ? "Aprobado" : "En Revisión",
-                            rol: esAdmin ? "admin" : "usuario",
-                            fechaRegistro: serverTimestamp()
-                        });
-
-                        alert("¡Registro enviado! Tu comprobante fue recibido y está en revisión.");
-                        document.getElementById('register-form').reset();
-                        switchTab('espera-aprobacion');
-
-                    } catch (uploadErr) {
-                        console.error("Error al procesar registro:", uploadErr);
-                    } finally {
-                        btnSubmit.innerText = "Enviar Registro y Comprobante";
-                        btnSubmit.disabled = false;
+                // 3. Subir el archivo a Google Drive mediante Apps Script
+                let driveUrl = "Pendiente";
+                try {
+                    const response = await fetch(DRIVE_WEB_APP_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            fileName: `${name}_${file.name}`,
+                            mimeType: file.type,
+                            fileData: base64Content
+                        })
+                    });
+                    const result = await response.json();
+                    if (result.status === 'success') {
+                        driveUrl = result.fileUrl;
                     }
-                };
+                } catch (driveErr) {
+                    console.warn("Error en envío a Drive:", driveErr);
+                }
+
+                const esAdmin = email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+
+                // 4. Guardar registro en Firestore con la URL de Drive
+                await setDoc(doc(db, "usuarios", uid), {
+                    uid: uid,
+                    nombre: name,
+                    agencia: agency,
+                    email: email,
+                    plan: plan,
+                    comprobanteUrl: driveUrl,
+                    estatus: esAdmin ? "Aprobado" : "En Revisión",
+                    rol: esAdmin ? "admin" : "usuario",
+                    fechaRegistro: serverTimestamp()
+                });
+
+                alert("¡Registro enviado con éxito! Tu comprobante fue subido a tu carpeta de Google Drive.");
+                document.getElementById('register-form').reset();
+                switchTab('espera-aprobacion');
 
             } catch (authErr) {
                 console.error("Error en registro:", authErr);
                 alert(`Error en el registro: ${authErr.message}`);
+            } finally {
                 btnSubmit.innerText = "Enviar Registro y Comprobante";
                 btnSubmit.disabled = false;
             }
@@ -1188,19 +1213,17 @@
 
         function escucharRegistrosAdmin() {
             const tbody = document.getElementById('admin-table-body');
-            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">Cargando usuarios registrados...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align: center;">Cargando usuarios registrados...</td></tr>`;
 
-            const q = query(
-                collection(db, "usuarios"), 
-                orderBy("fechaRegistro", "desc"), 
-                limit(30)
-            );
+            const colRef = collection(db, "usuarios");
 
-            unsubscribeAdminListener = onSnapshot(q, (snapshot) => {
+            if (unsubscribeAdminListener) unsubscribeAdminListener();
+
+            unsubscribeAdminListener = onSnapshot(colRef, (snapshot) => {
                 tbody.innerHTML = "";
 
                 if (snapshot.empty) {
-                    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">No hay usuarios registrados aún.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center;">No hay usuarios registrados aún.</td></tr>`;
                     return;
                 }
 
@@ -1208,13 +1231,26 @@
                     const data = docSnap.data();
                     const id = docSnap.id;
                     const rolActual = data.rol || 'usuario';
+                    const estatusActual = data.estatus || 'En Revisión';
+
+                    let pillClass = 'status-pending';
+                    if (estatusActual === 'Aprobado') pillClass = 'status-approved';
+                    else if (estatusActual === 'Rechazado') pillClass = 'status-rejected';
+
+                    let comprobanteHtml = '<span>Sin enlace</span>';
+                    if (data.comprobanteUrl && data.comprobanteUrl.includes('drive.google.com')) {
+                        comprobanteHtml = `<a href="${data.comprobanteUrl}" target="_blank" style="color:var(--secondary-color); font-weight:700;">📂 Ver en Drive</a>`;
+                    } else if (data.comprobanteUrl) {
+                        comprobanteHtml = `<a href="${data.comprobanteUrl}" target="_blank" style="color:var(--secondary-color); font-weight:700;">🖼️ Ver Comprobante</a>`;
+                    }
 
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td><strong>${escapeHtml(data.nombre || 'N/A')}</strong><br><small style="color:var(--neutral-gray);">${escapeHtml(data.agencia || '')}</small></td>
+                        <td><strong>${escapeHtml(data.nombre || 'Sin nombre')}</strong><br><small style="color:var(--neutral-gray);">${escapeHtml(data.agencia || '')}</small></td>
                         <td>${escapeHtml(data.email || '')}</td>
                         <td>${escapeHtml(data.plan || '')}</td>
-                        <td><a href="${escapeHtml(data.comprobanteUrl || '#')}" target="_blank" style="color: var(--secondary-color); font-weight:600;">📂 Ver en Drive</a></td>
+                        <td>${comprobanteHtml}</td>
+                        <td><span class="status-pill ${pillClass}">${estatusActual}</span></td>
                         <td>
                             <select onchange="cambiarRolUsuario('${id}', this.value)" style="padding: 4px; margin:0; font-size:0.8rem;">
                                 <option value="usuario" ${rolActual === 'usuario' ? 'selected' : ''}>Miembro</option>
@@ -1222,10 +1258,16 @@
                                 <option value="admin" ${rolActual === 'admin' ? 'selected' : ''}>Administrador</option>
                             </select>
                         </td>
-                        <td><button class="btn-action" onclick="aprobarUsuarioYNotificar('${id}', '${escapeHtml(data.email || '')}', '${escapeHtml(data.nombre || '')}')" style="padding: 4px 8px; margin:0; width:auto; background: #38A169;">Aprobar Acceso</button></td>
+                        <td>
+                            <button class="btn-approve" onclick="aprobarUsuarioDirecto('${id}', '${escapeHtml(data.email || '')}', '${escapeHtml(data.nombre || '')}')">🟢 Aprobar</button>
+                            <button class="btn-reject" onclick="rechazarUsuarioDirecto('${id}', '${escapeHtml(data.email || '')}')">🔴 Denegar</button>
+                        </td>
                     `;
                     tbody.appendChild(tr);
                 });
+            }, (error) => {
+                console.error("Error al escuchar registros:", error);
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: red;">Error al cargar registros: ${error.message}</td></tr>`;
             });
         }
 
@@ -1239,35 +1281,47 @@
             }
         };
 
-        /* APROBAR USUARIO EN FIRESTORE Y DISPARAR ENVIÓ DE CORREO */
-        window.aprobarUsuarioYNotificar = async function(uid, email, nombre) {
+        window.aprobarUsuarioDirecto = async function(uid, email, nombre) {
             try {
                 await updateDoc(doc(db, "usuarios", uid), { estatus: "Aprobado" });
 
-                // Enviar petición a Google Apps Script para enviar el correo automático
-                fetch(DRIVE_WEB_APP_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        action: "sendApprovalEmail",
-                        email: email,
-                        nombre: nombre
-                    })
-                });
+                const asunto = encodeURIComponent("¡Tu membresía ha sido aprobada! - Haciendo del Turismo");
+                const cuerpo = encodeURIComponent(`Hola ${nombre},\n\nTe confirmamos que tu pago ha sido verificado correctamente y tu acceso a la plataforma de Haciendo del Turismo ha sido APROBADO.\n\nYa puedes iniciar sesión con tu correo y contraseña para disfrutar de todos los beneficios de tu membresía y el Colegio Online.\n\n¡Bienvenido/a!\nAtentamente,\nFernando Guerrero\nHaciendo del Turismo`);
 
-                alert(`¡Acceso APROBADO correctamente! Se ha enviado un correo de confirmación a ${email}.`);
+                window.open(`mailto:${email}?subject=${asunto}&body=${cuerpo}`, '_blank');
+
+                alert(`¡Acceso APROBADO con éxito! Se abrió tu cliente de correo para enviar la confirmación a ${email}.`);
             } catch (error) {
                 console.error("Error al aprobar:", error);
                 alert("No se pudo aprobar al usuario.");
             }
         };
 
+        window.rechazarUsuarioDirecto = async function(uid, email) {
+            if (!confirm(`¿Estás seguro de que deseas rechazar la solicitud de ${email}?`)) return;
+
+            try {
+                await updateDoc(doc(db, "usuarios", uid), { estatus: "Rechazado" });
+
+                const asunto = encodeURIComponent("Estado de tu registro - Haciendo del Turismo");
+                const cuerpo = encodeURIComponent(`Estimado usuario,\n\nTe informamos que tu solicitud de registro en Haciendo del Turismo no ha podido ser aprobada. Por favor verifica tu comprobante de pago o contáctanos por WhatsApp para asistirte.\n\nAtentamente,\nEquipo de Haciendo del Turismo`);
+
+                window.open(`mailto:${email}?subject=${asunto}&body=${cuerpo}`, '_blank');
+
+                alert(`La solicitud de ${email} ha sido denegada.`);
+            } catch (error) {
+                console.error("Error al rechazar:", error);
+                alert("No se pudo rechazar la solicitud.");
+            }
+        };
+
         function escucharChatComunidad() {
             const list = document.getElementById('chat-messages-list');
-            const q = query(collection(db, "chat_comunidad"), orderBy("fecha", "asc"), limit(50));
+            const colRef = collection(db, "chat_comunidad");
 
             if (unsubscribeChatListener) unsubscribeChatListener();
 
-            unsubscribeChatListener = onSnapshot(q, (snapshot) => {
+            unsubscribeChatListener = onSnapshot(colRef, (snapshot) => {
                 list.innerHTML = "";
 
                 if (snapshot.empty) {
