@@ -15,6 +15,9 @@
             --whatsapp-green: #25D366;
             --whatsapp-dark: #128C7E;
             --spotify-green: #1DB954;
+            --facebook-blue: #1877F2;
+            --instagram-pink: #E4405F;
+            --youtube-red: #FF0000;
         }
 
         * {
@@ -42,7 +45,7 @@
         }
 
         aside {
-            width: 280px;
+            width: 290px;
             background-color: var(--primary-color);
             color: var(--white);
             display: flex;
@@ -66,8 +69,8 @@
         }
 
         .logo-img {
-            width: 120px;
-            height: 120px;
+            width: 110px;
+            height: 110px;
             object-fit: contain;
             margin-bottom: 10px;
             border-radius: 50%;
@@ -81,13 +84,12 @@
             .logo-img {
                 width: 80px;
                 height: 80px;
-                padding: 2px;
             }
         }
 
         .logo-area h1 {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
             letter-spacing: 0.5px;
         }
@@ -121,7 +123,7 @@
             text-decoration: none;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 500;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             display: block;
             padding: 9px 12px;
             border-radius: 6px;
@@ -132,35 +134,13 @@
             background-color: var(--secondary-color);
         }
 
-        .aside-footer {
-            margin-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            padding-top: 15px;
-        }
-
-        .btn-logout-sidebar {
-            background-color: #E53E3E;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            width: 100%;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: background 0.3s;
-            display: none;
-        }
-
-        .btn-logout-sidebar:hover {
-            background-color: #C53030;
-        }
-
         main {
             flex-grow: 1;
             padding: 30px;
             overflow-y: auto;
             background-color: var(--bg-light);
+            display: flex;
+            flex-direction: column;
         }
 
         @media (max-width: 768px) {
@@ -177,34 +157,117 @@
             border-bottom: 2px solid #E2E8F0;
             padding-bottom: 15px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 15px;
         }
 
         header h2 {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 700;
             color: var(--primary-color);
-            font-size: 1.4rem;
+            font-size: 1.3rem;
         }
 
-        .user-badge {
-            background-color: var(--secondary-color);
-            color: var(--white);
-            padding: 6px 14px;
+        .header-user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+        }
+
+        .user-info-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #E2E8F0;
+            padding: 4px 12px 4px 4px;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: var(--primary-color);
         }
 
         .profile-avatar-small {
-            width: 26px;
-            height: 26px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             object-fit: cover;
             background: #fff;
+            border: 1px solid var(--secondary-color);
+        }
+
+        .settings-dropdown-container {
+            position: relative;
+        }
+
+        .btn-settings-gear {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn-settings-gear:hover {
+            background-color: var(--secondary-color);
+            transform: rotate(30deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 50px;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            width: 200px;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid #E2E8F0;
+        }
+
+        .dropdown-menu.show {
+            display: flex;
+        }
+
+        .dropdown-menu button, .dropdown-menu a {
+            padding: 12px 15px;
+            text-align: left;
+            background: none;
+            border: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .dropdown-menu button:hover, .dropdown-menu a:hover {
+            background-color: #F4F6F8;
+        }
+
+        .dropdown-menu hr {
+            border: none;
+            border-top: 1px solid #E2E8F0;
+            margin: 0;
+        }
+
+        .btn-logout-dropdown {
+            color: #E53E3E !important;
         }
 
         .section-view {
@@ -305,12 +368,38 @@
             gap: 8px !important;
         }
 
-        .btn-whatsapp:hover {
-            background-color: var(--whatsapp-dark) !important;
-        }
-
         .btn-spotify {
             background-color: var(--spotify-green) !important;
+            color: white !important;
+            font-weight: 700 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+        }
+
+        .btn-facebook {
+            background-color: var(--facebook-blue) !important;
+            color: white !important;
+            font-weight: 700 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+        }
+
+        .btn-instagram {
+            background-color: var(--instagram-pink) !important;
+            color: white !important;
+            font-weight: 700 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+        }
+
+        .btn-youtube {
+            background-color: var(--youtube-red) !important;
             color: white !important;
             font-weight: 700 !important;
             display: flex !important;
@@ -339,69 +428,6 @@
             cursor: pointer;
             font-size: 1.1rem;
             color: var(--neutral-gray);
-        }
-
-        .chat-container {
-            background: var(--white);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            height: 450px;
-        }
-
-        .chat-messages {
-            flex-grow: 1;
-            overflow-y: auto;
-            border: 1px solid #E2E8F0;
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 15px;
-            background: #FAF5FF;
-        }
-
-        .chat-msg {
-            margin-bottom: 12px;
-            padding: 10px 14px;
-            border-radius: 8px;
-            background: #FFFFFF;
-            border-left: 4px solid var(--secondary-color);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .chat-msg-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: var(--neutral-gray);
-            margin-bottom: 4px;
-        }
-
-        .chat-msg-author {
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        .role-badge {
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 10px;
-            color: white;
-            margin-left: 6px;
-        }
-
-        .role-admin { background: #D69E2E; }
-        .role-mod { background: #319795; }
-
-        .chat-form {
-            display: flex;
-            gap: 10px;
-        }
-
-        .chat-form input {
-            flex-grow: 1;
-            margin-bottom: 0 !important;
         }
 
         .table-wrapper {
@@ -513,31 +539,36 @@
             </div>
             <ul class="nav-links" id="main-nav-list">
                 <li id="nav-access-item"><a href="#" onclick="switchTab('inicio', event)" class="active">🏠 Acceso & Registro</a></li>
-                <li class="protected-nav" id="nav-profile-item" style="display: none;"><a href="#" onclick="switchTab('perfil', event)">👤 Mi Perfil</a></li>
+                <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('promos', event)">🏷️ Promociones Principales</a></li>
                 <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('noticias', event)">📰 Noticias & Blog</a></li>
                 <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('colegio', event)">🎓 Colegio Online</a></li>
-                <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('comunidad', event)">💬 Chateo Comunidad</a></li>
                 <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('podcasts', event)">🎙️ Radio Red Turística</a></li>
-                <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('asociacion', event)">🤝 Directorio Asociación</a></li>
-                <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('promos', event)">🏷️ Promociones</a></li>
-                <li id="nav-admin-item" style="display: none;"><a href="#" onclick="switchTab('admin', event)" style="background: #D69E2E; color: white;">⚙️ Panel Admin</a></li>
+                <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('redes', event)">📱 Redes Sociales (Facebook e Instagram)</a></li>
+                <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('youtube', event)">▶️ Canal de YouTube</a></li>
+                <li class="protected-nav" style="display: none;"><a href="#" onclick="switchTab('asociacion', event)">🤝 Directorio de Miembros de la Asociación</a></li>
+                <li id="nav-admin-item" style="display: none;"><a href="#" onclick="switchTab('admin', event)" style="background: #D69E2E; color: white;">⚙️ Panel de Administrador</a></li>
             </ul>
-        </div>
-        
-        <div class="aside-footer">
-            <button class="btn-logout-sidebar" id="btn-logout-sidebar" onclick="handleLogout()">🔴 Cerrar Sesión</button>
-            <div style="font-size: 0.75rem; color: var(--neutral-gray); text-align: center; margin-top: 10px;">
-                Plataforma Multiplataforma (PC & Móvil)
-            </div>
         </div>
     </aside>
 
     <main>
         <header>
             <h2 id="header-title">Acceso & Registro de Miembros</h2>
-            <div class="user-badge" id="badge-status">
-                <img src="https://via.placeholder.com/30" alt="Avatar" class="profile-avatar-small" id="header-avatar" style="display:none;">
-                <span id="badge-text">Estatus: No autenticado</span>
+            
+            <div class="header-user-menu" id="header-user-menu" style="display: none;">
+                <div class="user-info-display">
+                    <img src="https://via.placeholder.com/30" alt="Avatar" class="profile-avatar-small" id="header-avatar">
+                    <span id="header-username-text">Miembro</span>
+                </div>
+
+                <div class="settings-dropdown-container">
+                    <button class="btn-settings-gear" onclick="toggleSettingsMenu()" title="Ajustes">⚙️</button>
+                    <div class="dropdown-menu" id="settings-dropdown">
+                        <button onclick="switchTab('perfil'); closeSettingsMenu();">👤 Mi Perfil</button>
+                        <hr>
+                        <button class="btn-logout-dropdown" onclick="handleLogout()">🔴 Cerrar Sesión</button>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -666,7 +697,18 @@
             </div>
         </div>
 
-        <!-- Noticias -->
+        <!-- 1. PROMOCIONES PRINCIPALES -->
+        <div id="promos" class="section-view">
+            <h2 style="font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color);">Promociones Principales</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Preventa Exclusiva Fam Trip</h3>
+                    <p>Tarifas preferenciales en recorridos de familiarización y eventos programados.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. NOTICIAS & BLOG -->
         <div id="noticias" class="section-view">
             <h2 style="font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color);">Actualidad y Blog del Sector</h2>
             <div class="card-grid">
@@ -678,7 +720,7 @@
             </div>
         </div>
 
-        <!-- Colegio Online -->
+        <!-- 3. COLEGIO ONLINE -->
         <div id="colegio" class="section-view">
             <div style="background: var(--white); padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 5px solid #38A169;">
                 <div>
@@ -703,17 +745,8 @@
 
                         <h3>Introducción a las Agencias de Viajes</h3>
                         <p style="font-size: 0.85rem; color: #4A5568; margin-bottom: 12px;">
-                            Programa teórico-práctico diseñado para comprender la clasificación técnica de las empresas (DMC, Mayoristas, Tour Operadores, Minoristas y OTAs), el lenguaje especializado, la gestión de relaciones públicas y la instrumentación jurídica (contratos ante PROFECO, convenios B2B y avisos de privacidad).
+                            Programa teórico-práctico diseñado para comprender la clasificación técnica de las empresas (DMC, Mayoristas, Tour Operadores, Minoristas y OTAs), el lenguaje especializado, la gestión de relaciones públicas y la instrumentación jurídica.
                         </p>
-
-                        <ul style="font-size: 0.8rem; color: #4A5568; margin-left: 18px; margin-bottom: 15px; line-height: 1.5;">
-                            <li>Modelos de Negocios en el Sector Turístico</li>
-                            <li>Concepto y Fundamentos de la Empresa de Viajes</li>
-                            <li>Tipología y Clasificación de las Empresas</li>
-                            <li>Tecnicismos y Lenguaje Especializado</li>
-                            <li>Documentación Legal, Normativa (NOM-010-TUR-2001) y Trámites</li>
-                            <li>Convenios, Contratos y Certeza Jurídica</li>
-                        </ul>
                     </div>
                     
                     <a href="https://colegiodeturismoonline.com/courses/introducci-n-a-las-agencias-de-viajes/" target="_blank" class="btn-action">
@@ -723,24 +756,7 @@
             </div>
         </div>
 
-        <!-- Chateo Comunidad -->
-        <div id="comunidad" class="section-view">
-            <h2 style="font-size: 1.3rem; margin-bottom: 5px; color: var(--primary-color);">Muro de Debates Profesionales</h2>
-            <p style="font-size: 0.9rem; color: var(--neutral-gray); margin-bottom: 15px;">Canal oficial de avisos y novedades. Todos los miembros pueden leer; la publicación está reservada para Moderadores y Administradores.</p>
-            
-            <div class="chat-container">
-                <div class="chat-messages" id="chat-messages-list">
-                    <p style="text-align: center; color: var(--neutral-gray); font-size: 0.85rem;">Cargando mensajes del muro...</p>
-                </div>
-                <form class="chat-form" id="chat-send-form" onsubmit="handleSendChatMessage(event)">
-                    <input type="text" id="chat-input-text" placeholder="Escribe un mensaje en el muro..." required disabled>
-                    <button type="submit" class="btn-action" id="chat-btn-submit" style="width: auto; margin:0;" disabled>Publicar</button>
-                </form>
-                <span id="chat-role-warning" style="font-size: 0.75rem; color: #E53E3E; margin-top: 6px; display: none;">🔒 Para publicar en el muro necesitas el rango de Moderador o Administrador.</span>
-            </div>
-        </div>
-
-        <!-- RADIO RED TURÍSTICA - HDT (CON REPRODUCTORES OFICIALES DE SPOTIFY) -->
+        <!-- 4. RADIO RED TURÍSTICA -->
         <div id="podcasts" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
                 <div>
@@ -753,7 +769,6 @@
             </div>
 
             <div class="card-grid">
-                <!-- 1. T3 E5 -->
                 <div class="card" style="border-top-color: var(--spotify-green);">
                     <h3>Temporada 3 Episodio 5</h3>
                     <p>La realidad detrás del "Certificate como Agente de Viajes"</p>
@@ -761,8 +776,6 @@
                         <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/76SYrlHkShkMOmoZwDmPxI?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     </div>
                 </div>
-
-                <!-- 2. T3 E4 -->
                 <div class="card" style="border-top-color: var(--spotify-green);">
                     <h3>Temporada 3 Episodio 4</h3>
                     <p>La Proyección Turística & Gastronómica de Victoria de Durango</p>
@@ -770,113 +783,70 @@
                         <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/2gvJeVfBBrEEqhGZRCAfYg?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     </div>
                 </div>
-
-                <!-- 3. T3 E3 -->
-                <div class="card" style="border-top-color: var(--spotify-green);">
-                    <h3>Temporada 3 Episodio 3</h3>
-                    <p>El Crecimiento Desmedido de las Agencias de Viajes</p>
-                    <div class="podcast-iframe-container">
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/0KFR9xGXLMI4kJ05PnIQ69?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                </div>
-
-                <!-- 4. T3 E2 -->
-                <div class="card" style="border-top-color: var(--spotify-green);">
-                    <h3>Temporada 3 Episodio 2</h3>
-                    <p>El Impacto de Estudiar Turismo</p>
-                    <div class="podcast-iframe-container">
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/2lzDGhyYkznf4ijfK6Q9AC?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                </div>
-
-                <!-- 5. T3 E1 -->
-                <div class="card" style="border-top-color: var(--spotify-green);">
-                    <h3>Temporada 3 Episodio 1</h3>
-                    <p>Ser Maestro de Turismo con Vocación</p>
-                    <div class="podcast-iframe-container">
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/50djtpvwCSDS83EPvgjtNq?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                </div>
-
-                <!-- 6. Episodio Promocional -->
-                <div class="card" style="border-top-color: var(--spotify-green);">
-                    <h3>Episodio Promocional</h3>
-                    <p>Cuando Viajas, ¿Ya sabes dónde Hospedarte? - Hotel Plaza Morelia</p>
-                    <div class="podcast-iframe-container">
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/4bMa2wk7xCyPR4a8iVYoCk?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                </div>
-
-                <!-- 7. T2 E6 -->
-                <div class="card" style="border-top-color: var(--spotify-green);">
-                    <h3>Temporada 2 Episodio 6</h3>
-                    <p>Y Tú ¿Regalas tu trabajo? Entorno comercial del Sector Turístico</p>
-                    <div class="podcast-iframe-container">
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/3Qmsj2cxKTISRRWlwa2vc1?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                </div>
-
-                <!-- 8. T2 E5 -->
-                <div class="card" style="border-top-color: var(--spotify-green);">
-                    <h3>Temporada 2 Episodio 5</h3>
-                    <p>Sector Público VS Sector Privado en Turismo</p>
-                    <div class="podcast-iframe-container">
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/4J2SuIzpGMC4GXb7DQmxq5?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                </div>
-
-                <!-- 9. T2 E4 -->
-                <div class="card" style="border-top-color: var(--spotify-green);">
-                    <h3>Temporada 2 Episodio 4</h3>
-                    <p>La realidad de las Asociaciones Turísticas de México</p>
-                    <div class="podcast-iframe-container">
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/4VvKoipGnEbDYE44XN5REH?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                </div>
-
-                <!-- 10. T2 E3 -->
-                <div class="card" style="border-top-color: var(--spotify-green);">
-                    <h3>Temporada 2 Episodio 3</h3>
-                    <p>Mitos y Realidades del Turismo</p>
-                    <div class="podcast-iframe-container">
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/2vFqOl5nPysJHDxvpH2oaw?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                </div>
             </div>
+        </div>
 
-            <!-- Redes sociales adicionales -->
-            <div class="card-grid" style="margin-top: 20px;">
-                <div class="card">
-                    <h3>Facebook Principal</h3>
-                    <p>Sigue nuestras transmisiones en vivo y anuncios en la página oficial.</p>
-                    <a href="https://m.facebook.com/HaciendoDelTurismoOficial/" target="_blank" class="btn-action">Visitar Facebook</a>
+        <!-- 5. REDES SOCIALES (FACEBOOK E INSTAGRAM) -->
+        <div id="redes" class="section-view">
+            <h2 style="font-size: 1.3rem; margin-bottom: 5px; color: var(--primary-color);">Redes Sociales (Facebook e Instagram)</h2>
+            <p style="font-size: 0.9rem; color: var(--neutral-gray); margin-bottom: 20px;">Sigue nuestras publicaciones recientes, transmisiones en vivo y comunicados oficiales.</p>
+
+            <div class="card-grid">
+                <div class="card" style="border-top-color: var(--facebook-blue);">
+                    <h3>Página Oficial de Facebook</h3>
+                    <p>Mantente al tanto de nuestros avisos, foros en vivo y artículos destacados.</p>
+                    <a href="https://m.facebook.com/HaciendoDelTurismoOficial/" target="_blank" class="btn-action btn-facebook">
+                        📘 Visitar Facebook Oficial
+                    </a>
+                </div>
+
+                <div class="card" style="border-top-color: var(--instagram-pink);">
+                    <h3>Perfil de Instagram</h3>
+                    <p>Explora nuestras historias, infografías y contenidos visuales del sector.</p>
+                    <a href="https://www.instagram.com" target="_blank" class="btn-action btn-instagram">
+                        📸 Visitar Instagram Oficial
+                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- Directorio Asociación -->
+        <!-- 6. CANAL DE YOUTUBE -->
+        <div id="youtube" class="section-view">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <div>
+                    <h2 style="font-size: 1.3rem; color: var(--primary-color);">Canal de YouTube</h2>
+                    <p style="font-size: 0.9rem; color: var(--neutral-gray);">Reproduce nuestras masterclasses, entrevistas y transmisiones en video.</p>
+                </div>
+                <a href="https://www.youtube.com" target="_blank" class="btn-action btn-youtube" style="width: auto; padding: 10px 18px; margin: 0;">
+                    ▶️ Suscribirse al Canal
+                </a>
+            </div>
+
+            <div class="card-grid">
+                <div class="card" style="border-top-color: var(--youtube-red);">
+                    <h3>Transmisión Destacada / Videocast</h3>
+                    <p>Conferencias y análisis profesionales del turismo.</p>
+                    <div class="podcast-iframe-container">
+                        <iframe style="border-radius:12px" src="https://www.youtube.com/embed/live_stream?channel=UC_x5XG1OV2P6uZZ5FSM9Ttw" width="100%" height="200" frameBorder="0" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. DIRECTORIO DE MIEMBROS DE LA ASOCIACIÓN -->
         <div id="asociacion" class="section-view">
-            <h2 style="font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color);">Asociación de Profesionales</h2>
+            <h2 style="font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color);">Directorio de Miembros de la Asociación de Profesionales y Prestadores de Servicios Turísticos</h2>
             <div class="card">
                 <h3>Padrón Oficial de Miembros</h3>
                 <p>Directorio verificado de agencias y operadores pertenecientes a la red.</p>
             </div>
         </div>
 
-        <!-- Promociones -->
-        <div id="promos" class="section-view">
-            <h2 style="font-size: 1.3rem; margin-bottom: 15px; color: var(--primary-color);">Beneficios Especiales</h2>
-            <div class="card">
-                <h3>Preventa Exclusiva Fam Trip</h3>
-                <p>Tarifas preferenciales en recorridos de familiarización.</p>
-            </div>
-        </div>
-
-        <!-- PANEL DE CONTROL ADMIN -->
+        <!-- 8. PANEL DE ADMINISTRADOR -->
         <div id="admin" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
                 <div>
-                    <h2 style="font-size: 1.3rem; color: var(--primary-color);">Panel de Control de Administración</h2>
+                    <h2 style="font-size: 1.3rem; color: var(--primary-color);">Panel de Administrador</h2>
                     <p style="font-size: 0.9rem; color: var(--neutral-gray);">Padrón total de usuarios registrados, revisión de comprobantes en Drive y asignación de roles.</p>
                 </div>
                 <a href="https://drive.google.com/drive/folders/1tTQhLn8aEi9Z136eECQnBdvSy-lrY2Wo?usp=sharing" target="_blank" class="btn-action" style="width: auto; padding: 8px 16px; margin: 0; background: #38A169;">📂 Abrir Carpeta de Drive</a>
@@ -920,8 +890,6 @@
             getDoc, 
             setDoc, 
             updateDoc, 
-            addDoc,
-            serverTimestamp, 
             collection, 
             onSnapshot 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -945,7 +913,6 @@
 
         let currentUserData = null;
         let unsubscribeAdminListener = null;
-        let unsubscribeChatListener = null;
 
         window.togglePasswordVisibility = function(inputId, btn) {
             const input = document.getElementById(inputId);
@@ -977,16 +944,25 @@
             }
         };
 
+        window.toggleSettingsMenu = function() {
+            const dropdown = document.getElementById('settings-dropdown');
+            dropdown.classList.toggle('show');
+        };
+
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.settings-dropdown-container')) {
+                const dropdown = document.getElementById('settings-dropdown');
+                if (dropdown) dropdown.classList.remove('show');
+            }
+        });
+
         onAuthStateChanged(auth, async (user) => {
-            const badgeText = document.getElementById('badge-text');
-            const btnLogoutSidebar = document.getElementById('btn-logout-sidebar');
+            const headerUserMenu = document.getElementById('header-user-menu');
             const navAccessItem = document.getElementById('nav-access-item');
             const protectedNavs = document.querySelectorAll('.protected-nav');
             const navAdminItem = document.getElementById('nav-admin-item');
             const headerAvatar = document.getElementById('header-avatar');
-            const chatInput = document.getElementById('chat-input-text');
-            const chatBtn = document.getElementById('chat-btn-submit');
-            const chatWarning = document.getElementById('chat-role-warning');
+            const headerUsernameText = document.getElementById('header-username-text');
 
             if (user) {
                 const userDoc = await getDoc(doc(db, "usuarios", user.uid));
@@ -998,7 +974,7 @@
                     estatus = currentUserData.estatus || 'En Revisión';
                     rol = currentUserData.rol || 'usuario';
                 } else {
-                    currentUserData = { email: user.email, estatus: 'Aprobado', rol: 'admin' };
+                    currentUserData = { email: user.email, estatus: 'Aprobado', rol: 'admin', nombre: 'Admin' };
                 }
 
                 if (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
@@ -1011,25 +987,20 @@
                 }
 
                 navAccessItem.style.display = 'none';
-                btnLogoutSidebar.style.display = 'block';
+                headerUserMenu.style.display = 'flex';
+
+                const displayName = currentUserData.nombre || user.email.split('@')[0];
+                headerUsernameText.innerText = displayName;
 
                 if (currentUserData.fotoUrl) {
                     headerAvatar.src = currentUserData.fotoUrl;
-                    headerAvatar.style.display = 'inline-block';
                 } else {
-                    headerAvatar.style.display = 'none';
+                    headerAvatar.src = "https://via.placeholder.com/30";
                 }
-
-                let badgeRole = 'MIEMBRO';
-                if (rol === 'admin') badgeRole = 'ADMINISTRADOR';
-                else if (rol === 'moderador') badgeRole = 'MODERADOR';
-
-                badgeText.innerText = `${user.email} (${badgeRole})`;
 
                 if (estatus !== 'Aprobado' && rol !== 'admin') {
                     protectedNavs.forEach(nav => nav.style.display = 'none');
                     navAdminItem.style.display = 'none';
-                    badgeText.parentElement.style.backgroundColor = '#D69E2E';
                     switchTab('espera-aprobacion');
                     return;
                 }
@@ -1038,20 +1009,8 @@
 
                 if (rol === 'admin') {
                     navAdminItem.style.display = 'block';
-                    badgeText.parentElement.style.backgroundColor = '#005776';
                 } else {
                     navAdminItem.style.display = 'none';
-                    badgeText.parentElement.style.backgroundColor = rol === 'moderador' ? '#319795' : '#4298B5';
-                }
-
-                if (rol === 'admin' || rol === 'moderador') {
-                    chatInput.disabled = false;
-                    chatBtn.disabled = false;
-                    chatWarning.style.display = 'none';
-                } else {
-                    chatInput.disabled = true;
-                    chatBtn.disabled = true;
-                    chatWarning.style.display = 'block';
                 }
 
                 document.getElementById('profile-name').value = currentUserData.nombre || '';
@@ -1065,16 +1024,7 @@
                 navAccessItem.style.display = 'block';
                 protectedNavs.forEach(nav => nav.style.display = 'none');
                 navAdminItem.style.display = 'none';
-                btnLogoutSidebar.style.display = 'none';
-                headerAvatar.style.display = 'none';
-
-                badgeText.innerText = "Estatus: No autenticado";
-                badgeText.parentElement.style.backgroundColor = 'var(--secondary-color)';
-
-                chatInput.disabled = true;
-                chatBtn.disabled = true;
-                chatWarning.style.display = 'block';
-
+                headerUserMenu.style.display = 'none';
                 switchTab('inicio');
             }
         });
@@ -1103,13 +1053,14 @@
                 'inicio': 'Acceso & Registro de Miembros',
                 'espera-aprobacion': 'Estado de Registro',
                 'perfil': 'Ajustes de Perfil de Miembro',
+                'promos': 'Promociones Principales',
                 'noticias': 'Noticias y Blog Oficial',
                 'colegio': 'Colegio de Turismo Online',
-                'comunidad': 'Muro de Debates Profesionales',
                 'podcasts': 'Radio Red Turística - HDT',
-                'asociacion': 'Directorio de la Asociación',
-                'promos': 'Últimas Promociones',
-                'admin': 'Panel de Control de Administración'
+                'redes': 'Redes Sociales (Facebook e Instagram)',
+                'youtube': 'Canal de YouTube',
+                'asociacion': 'Directorio de Miembros de la Asociación de Profesionales',
+                'admin': 'Panel de Administrador'
             };
             document.getElementById('header-title').innerText = titles[tabId] || 'Plataforma Oficial';
 
@@ -1118,10 +1069,6 @@
             } else if (unsubscribeAdminListener) {
                 unsubscribeAdminListener();
                 unsubscribeAdminListener = null;
-            }
-
-            if(tabId === 'comunidad') {
-                escucharChatComunidad();
             }
         };
 
@@ -1164,10 +1111,9 @@
                 }
 
                 if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-                    alert(`¡Bienvenido Administrador!`);
                     switchTab('admin');
                 } else if (userDoc.exists() && userDoc.data().estatus === 'Aprobado') {
-                    switchTab('colegio');
+                    switchTab('promos');
                 } else {
                     switchTab('espera-aprobacion');
                 }
@@ -1302,10 +1248,10 @@
                     updatePayload.fotoUrl = photoBase64;
                     document.getElementById('profile-img-preview').src = photoBase64;
                     document.getElementById('header-avatar').src = photoBase64;
-                    document.getElementById('header-avatar').style.display = 'inline-block';
                 }
 
                 await updateDoc(doc(db, "usuarios", user.uid), updatePayload);
+                document.getElementById('header-username-text').innerText = newName;
 
                 if (newPass && newPass.length >= 6) {
                     await updatePassword(user, newPass);
@@ -1412,12 +1358,9 @@
         window.aprobarUsuarioDirecto = async function(uid, email, nombre) {
             try {
                 await updateDoc(doc(db, "usuarios", uid), { estatus: "Aprobado" });
-
                 const asunto = encodeURIComponent("¡Tu membresía ha sido aprobada! - Haciendo del Turismo");
-                const cuerpo = encodeURIComponent(`Hola ${nombre},\n\nTe confirmamos que tu pago ha sido verificado correctamente y tu acceso a la plataforma de Haciendo del Turismo ha sido APROBADO.\n\nYa puedes iniciar sesión con tu correo y contraseña para disfrutar de todos los beneficios de tu membresía y el Colegio Online.\n\n¡Bienvenido/a!\nAtentamente,\nFernando Guerrero\nHaciendo del Turismo`);
-
+                const cuerpo = encodeURIComponent(`Hola ${nombre},\n\nTe confirmamos que tu pago ha sido verificado correctamente y tu acceso a la plataforma de Haciendo del Turismo ha sido APROBADO.\n\nAtentamente,\nFernando Guerrero\nHaciendo del Turismo`);
                 window.open(`mailto:${email}?subject=${asunto}&body=${cuerpo}`, '_blank');
-
                 alert(`¡Acceso APROBADO con éxito! Se abrió tu cliente de correo para enviar la confirmación a ${email}.`);
             } catch (error) {
                 console.error("Error al aprobar:", error);
@@ -1427,79 +1370,15 @@
 
         window.rechazarUsuarioDirecto = async function(uid, email, nombre) {
             if (!confirm(`¿Estás seguro de que deseas denegar el acceso a ${email}?`)) return;
-
             try {
                 await updateDoc(doc(db, "usuarios", uid), { estatus: "Rechazado" });
-
                 const asunto = encodeURIComponent("Estatus de tu registro - Haciendo del Turismo");
-                const cuerpo = encodeURIComponent(`Hola ${nombre},\n\nTe informamos que por el momento no podrás acceder a la plataforma hasta que no se confirme tu pago de membresía o se verifique tu comprobante.\n\nPor favor contáctanos si tienes alguna duda con tu aportación.\n\nAtentamente,\nFernando Guerrero\nHaciendo del Turismo`);
-
+                const cuerpo = encodeURIComponent(`Hola ${nombre},\n\nTe informamos que tu registro requiere verificación de pago.\n\nAtentamente,\nFernando Guerrero\nHaciendo del Turismo`);
                 window.open(`mailto:${email}?subject=${asunto}&body=${cuerpo}`, '_blank');
-
-                alert(`Acceso denegado. Se abrió tu cliente de correo para notificarle que su acceso queda pendiente hasta confirmar su pago.`);
+                alert(`Acceso denegado. Se abrió tu cliente de correo.`);
             } catch (error) {
                 console.error("Error al denegar:", error);
                 alert("No se pudo rechazar la solicitud.");
-            }
-        };
-
-        function escucharChatComunidad() {
-            const list = document.getElementById('chat-messages-list');
-            const colRef = collection(db, "chat_comunidad");
-
-            if (unsubscribeChatListener) unsubscribeChatListener();
-
-            unsubscribeChatListener = onSnapshot(colRef, (snapshot) => {
-                list.innerHTML = "";
-
-                if (snapshot.empty) {
-                    list.innerHTML = `<p style="text-align: center; color: var(--neutral-gray); font-size: 0.85rem;">No hay publicaciones en el muro todavía.</p>`;
-                    return;
-                }
-
-                snapshot.forEach((docSnap) => {
-                    const msg = docSnap.data();
-                    const fechaStr = msg.fecha ? new Date(msg.fecha.seconds * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
-                    
-                    let roleBadgeHtml = '';
-                    if (msg.rol === 'admin') roleBadgeHtml = `<span class="role-badge role-admin">ADMIN</span>`;
-                    else if (msg.rol === 'moderador') roleBadgeHtml = `<span class="role-badge role-mod">MOD</span>`;
-
-                    const div = document.createElement('div');
-                    div.className = 'chat-msg';
-                    div.innerHTML = `
-                        <div class="chat-msg-header">
-                            <span class="chat-msg-author">${escapeHtml(msg.autor || 'Anónimo')}${roleBadgeHtml}</span>
-                            <span>${fechaStr}</span>
-                        </div>
-                        <p style="font-size: 0.9rem; color: #2D3748;">${escapeHtml(msg.texto || '')}</p>
-                    `;
-                    list.appendChild(div);
-                });
-
-                list.scrollTop = list.scrollHeight;
-            });
-        }
-
-        window.handleSendChatMessage = async function(e) {
-            e.preventDefault();
-            const textInput = document.getElementById('chat-input-text');
-            const texto = textInput.value.trim();
-
-            if (!texto || !currentUserData) return;
-
-            try {
-                await addDoc(collection(db, "chat_comunidad"), {
-                    texto: texto,
-                    autor: currentUserData.nombre || currentUserData.email,
-                    email: currentUserData.email,
-                    rol: currentUserData.rol || 'usuario',
-                    fecha: serverTimestamp()
-                });
-                textInput.value = "";
-            } catch (error) {
-                console.error("Error al enviar mensaje:", error);
-                alert("No tienes permisos para publicar en el muro.");
             }
         };
 
