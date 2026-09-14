@@ -64,16 +64,16 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* Logotipo ampliado con fondo blanco en contenedor redondo */
+        /* LOGOTIPO AMPLIADO CON FONDO BLANCO REDONDO */
         .logo-img {
-            width: 100px;
-            height: 100px;
+            width: 130px;
+            height: 130px;
             object-fit: contain;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             border-radius: 50%;
             background: #FFFFFF;
-            padding: 6px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            padding: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             display: inline-block;
         }
 
@@ -279,7 +279,6 @@
             background-color: var(--whatsapp-dark) !important;
         }
 
-        /* Campos con Ojo Previsualizador de Contraseña */
         .password-wrapper {
             position: relative;
             margin-bottom: 12px;
@@ -302,7 +301,6 @@
             color: var(--neutral-gray);
         }
 
-        /* Estilos Muro de Debates / Chat */
         .chat-container {
             background: var(--white);
             border-radius: 8px;
@@ -445,7 +443,7 @@
             </div>
         </header>
 
-        <!-- ESPACIO UNIFICADO: ACCESO / REGISTRO CON 2 PASOS Y PREVISUALIZADOR DE CONTRASEÑA -->
+        <!-- ESPACIO UNIFICADO: ACCESO / REGISTRO DE MEMBRESÍA -->
         <div id="inicio" class="section-view active">
             
             <div class="auth-toggle-container">
@@ -501,14 +499,12 @@
                         <label for="user-email">Correo Electrónico:</label>
                         <input type="email" id="user-email" placeholder="tu-correo@agencia.com" required>
 
-                        <!-- Paso 1 de Seguridad: Contraseña con Previsualizador -->
                         <label for="user-pass">Paso 1: Contraseña Elegida (Mínimo 6 caracteres):</label>
                         <div class="password-wrapper">
                             <input type="password" id="user-pass" placeholder="******" minlength="6" required>
                             <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('user-pass', this)">👁️</button>
                         </div>
 
-                        <!-- Paso 2 de Seguridad: Confirmación requerida -->
                         <label for="user-pass-confirm">Paso 2: Confirmar Contraseña (Repetir para verificar):</label>
                         <div class="password-wrapper">
                             <input type="password" id="user-pass-confirm" placeholder="******" minlength="6" required>
@@ -545,6 +541,17 @@
 
         <!-- Colegio Online -->
         <div id="colegio" class="section-view">
+            <!-- Botón Superior Directo a la Web Oficial del Colegio -->
+            <div style="background: var(--white); padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 5px solid #38A169;">
+                <div>
+                    <h3 style="font-size: 1.1rem; color: var(--primary-color);">Colegio de Turismo Online</h3>
+                    <p style="font-size: 0.85rem; color: var(--neutral-gray);">Accede al catálogo completo de cursos y capacitaciones del portal principal.</p>
+                </div>
+                <a href="https://www.colegiodeturismoonline.com" target="_blank" class="btn-action" style="width: auto; padding: 10px 20px; margin: 0; background: #38A169;">
+                    🌐 Visitar www.colegiodeturismoonline.com
+                </a>
+            </div>
+
             <h2 style="font-size: 1.3rem; margin-bottom: 5px; color: var(--primary-color);">Capacitaciones y Talleres Exclusivos</h2>
             <p style="font-size: 0.9rem; color: var(--neutral-gray); margin-bottom: 20px;">Cursos profesionales diseñados por el Colegio de Turismo Online.</p>
             
@@ -552,13 +559,7 @@
                 <!-- Taller Oficial: Introducción a las Agencias de Viajes -->
                 <div class="card" style="border-top-color: var(--primary-color); display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <!-- Imagen oficial vinculada directamente desde la tienda del Colegio de Turismo Online -->
-                        <img src="https://colegiodeturismoonline.com/wp-content/uploads/2024/02/INTRODUCCION-A-LAS-AGENCIAS-DE-VIAJES.jpg" 
-                             onerror="this.onerror=null; this.src='https://colegiodeturismoonline.com/wp-content/uploads/2024/01/cropped-Colegio-de-Turismo-Online-Logo.png';" 
-                             alt="Introducción a las Agencias de Viajes" 
-                             style="width: 100%; height: 180px; object-fit: cover; border-radius: 6px; margin-bottom: 15px; border: 1px solid #E2E8F0;">
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <span style="background: #EBF8FF; color: var(--primary-color); font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 12px;">CURSO OFICIAL</span>
                             <span style="color: var(--primary-color); font-weight: 700; font-size: 1.05rem;">$2,400.00 MXN</span>
                         </div>
@@ -581,15 +582,6 @@
                     <a href="https://colegiodeturismoonline.com/courses/introducci-n-a-las-agencias-de-viajes/" target="_blank" class="btn-action">
                         🎓 Ver Taller Completo en la Web
                     </a>
-                </div>
-
-                <!-- Taller Complementario -->
-                <div class="card" style="border-top-color: var(--secondary-color); display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
-                        <h3>Costos y Presupuestos para Agencias</h3>
-                        <p style="font-size: 0.85rem; color: #4A5568; margin-bottom: 15px;">Domina el cálculo financiero de paquetes turísticos, costos fijos, variables y establecimiento de tarifas competitivas.</p>
-                    </div>
-                    <button class="btn-action" onclick="alert('Accediendo al módulo de Costos y Presupuestos...')">Acceder al Taller</button>
                 </div>
             </div>
         </div>
@@ -722,7 +714,6 @@
         let unsubscribeAdminListener = null;
         let unsubscribeChatListener = null;
 
-        // Función para alternar previsualización de contraseña
         window.togglePasswordVisibility = function(inputId, btn) {
             const input = document.getElementById(inputId);
             if (input.type === 'password') {
