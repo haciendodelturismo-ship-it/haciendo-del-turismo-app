@@ -246,7 +246,7 @@
             </ul>
         </div>
         <div style="font-size: 0.75rem; color: var(--neutral-gray); text-align: center;">
-            Base de Datos Activa
+            Firebase + Google Drive
         </div>
     </aside>
 
@@ -283,7 +283,7 @@
                     <label style="font-size: 0.85rem; font-weight: 600;">Comprobante de Pago (Imagen/PDF):</label>
                     <input type="file" id="payment-file" required>
                     
-                    <button type="submit" class="btn-action" id="btn-submit">Registrar y Subir a la Nube</button>
+                    <button type="submit" class="btn-action" id="btn-submit">Registrar y Subir a Google Drive</button>
                 </form>
             </div>
         </div>
@@ -364,7 +364,7 @@
                     <tr>
                         <th>Correo Electrónico</th>
                         <th>Plan Solicitado</th>
-                        <th>Comprobante</th>
+                        <th>Comprobante (Google Drive)</th>
                         <th>Estatus</th>
                         <th>Acción</th>
                     </tr>
@@ -378,11 +378,10 @@
         </div>
     </main>
 
-    <!-- Firebase SDKs -->
+    <!-- Firebase Firestore y Google Drive SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
         // Configuración oficial de Firebase del usuario
         const firebaseConfig = {
@@ -397,7 +396,9 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app);
+
+        // URL de Google Drive Apps Script integrada
+        const DRIVE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxlAapHmz_XsxdlLWTodSJQ-YJwhFlnXa5DAD3fsZu1ABw2KAv08NYHebQ11o7Cyj8S/exec';
 
         // Pestañas
         window.switchTab = function(tabId) {
@@ -424,7 +425,7 @@
             }
         };
 
-        // Enviar Formulario de Pago y Comprobante
+        // Enviar Formulario de Pago y Comprobante (Hacia Google Drive + Firebase)
         window.handlePaymentSubmit = async function(e) {
             e.preventDefault();
             const email = document.getElementById('user-email').value;
@@ -437,39 +438,63 @@
                 return;
             }
 
-            btnSubmit.innerText = "Subiendo archivo a la nube...";
+            btnSubmit.innerText = "Subiendo archivo a Google Drive...";
             btnSubmit.disabled = true;
 
             try {
                 const file = fileInput.files[0];
-                const storageRef = ref(storage, 'comprobantes/' + Date.now() + '_' + file.name);
                 
-                // Subir archivo a Storage
-                const snapshot = await uploadBytes(storageRef, file);
-                const fileUrl = await getDownloadURL(snapshot.ref);
+                // Convertir archivo a Base64 para enviarlo a Google Apps Script
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                
+                reader.onload = async function () {
+                    const base64Content = reader.result.split(',')[1];
 
-                // Guardar datos en Firestore
-                await addDoc(collection(db, "registros_pagos"), {
-                    email: email,
-                    plan: plan,
-                    comprobanteUrl: fileUrl,
-                    estatus: "En Revisión",
-                    fecha: serverTimestamp()
-                });
+                    // 1. Enviar a Google Drive
+                    const response = await fetch(DRIVE_WEB_APP_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            fileName: file.name,
+                            mimeType: file.type,
+                            fileData: base64Content
+                        })
+                    });
 
-                alert("¡Comprobante enviado y registrado con éxito en la base de datos!");
-                document.getElementById('payment-form').reset();
-                document.getElementById('badge-status').innerText = "Estatus: En Revisión por Administración";
+                    const result = await response.json();
+
+                    if(result.status !== 'success') {
+                        throw new Error("Error al subir a Google Drive");
+                    }
+
+                    const driveFileUrl = result.fileUrl;
+
+                    // 2. Guardar datos en Firestore
+                    await addDoc(collection(db, "registros_pagos"), {
+                        email: email,
+                        plan: plan,
+                        comprobanteUrl: driveFileUrl,
+                        fileName: file.name,
+                        estatus: "En Revisión",
+                        fecha: serverTimestamp()
+                    });
+
+                    alert("¡Comprobante enviado a Google Drive y registrado con éxito!");
+                    document.getElementById('payment-form').reset();
+                    document.getElementById('badge-status').innerText = "Estatus: En Revisión por Administración";
+                    btnSubmit.innerText = "Registrar y Subir a Google Drive";
+                    btnSubmit.disabled = false;
+                };
+
             } catch (error) {
                 console.error("Error al registrar: ", error);
-                alert("Hubo un error al subir el archivo. Revisa la consola (F12) para más detalles.");
-            } finally {
-                btnSubmit.innerText = "Registrar y Subir a la Nube";
+                alert("Hubo un error al procesar el archivo. Revisa que el script esté implementado correctamente con acceso público.");
+                btnSubmit.innerText = "Registrar y Subir a Google Drive";
                 btnSubmit.disabled = false;
             }
         };
 
-        // Cargar datos en el Panel de Administración
+      / Cargar datos en el Panel de Administración
         async function cargarRegistrosAdmin() {
             const tbody = document.getElementById('admin-table-body');
             tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">Cargando datos en tiempo real...</td></tr>`;
@@ -492,7 +517,7 @@
                     tr.innerHTML = `
                         <td>${data.email}</td>
                         <td>${data.plan}</td>
-                        <td><a href="${data.comprobanteUrl}" target="_blank" style="color: var(--secondary-color); font-weight:600;">Ver Archivo</a></td>
+                        <td><a href="${data.comprobanteUrl}" target="_blank" style="color: var(--secondary-color); font-weight:600;">📂 Ver en Drive</a></td>
                         <td><span class="${estatusClass}">${data.estatus}</span></td>
                         <td><button class="btn-action" onclick="aprobarUsuario('${id}')" style="padding: 4px 8px;">Aprobar</button></td>
                     `;
@@ -520,4 +545,4 @@
         }
     </script>
 </body>
-</html>
+</html>  
