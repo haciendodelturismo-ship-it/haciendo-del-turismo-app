@@ -478,7 +478,6 @@
         let currentUserData = null;
         let unsubscribeAdminListener = null;
 
-        // Monitorear sesión y otorgar rol de Admin al correo asignado
         onAuthStateChanged(auth, async (user) => {
             const badgeText = document.getElementById('badge-text');
             const btnLogout = document.getElementById('btn-logout');
@@ -497,7 +496,6 @@
                     currentUserData = { email: user.email, estatus: 'Aprobado', rol: 'admin' };
                 }
 
-                // Asignación automática de rango Administrador para haciendodelturismo@gmail.com
                 if (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                     rol = 'admin';
                     estatus = 'Aprobado';
@@ -582,7 +580,6 @@
                 try {
                     userCredential = await signInWithEmailAndPassword(auth, email, password);
                 } catch (loginError) {
-                    // Si intenta ingresar como el administrador configurado y aún no está registrado, se crea la cuenta
                     if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                         userCredential = await createUserWithEmailAndPassword(auth, email, password);
                     } else {
