@@ -12,6 +12,8 @@
             --neutral-gray: #888B8D;
             --bg-light: #F4F6F8;
             --white: #FFFFFF;
+            --whatsapp-green: #25D366;
+            --whatsapp-dark: #128C7E;
         }
 
         * {
@@ -30,6 +32,15 @@
             font-weight: 400;
         }
 
+        /* Responsive Layout Grid */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                height: auto;
+                overflow: auto;
+            }
+        }
+
         aside {
             width: 280px;
             background-color: var(--primary-color);
@@ -38,17 +49,25 @@
             flex-direction: column;
             justify-content: space-between;
             padding: 20px;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            aside {
+                width: 100%;
+                padding: 15px;
+            }
         }
 
         .logo-area {
             text-align: center;
-            padding-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .logo-img {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             object-fit: contain;
             margin-bottom: 8px;
             border-radius: 50%;
@@ -60,7 +79,6 @@
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-size: 1.1rem;
             font-weight: 700;
-            margin-top: 5px;
             letter-spacing: 0.5px;
         }
 
@@ -69,6 +87,19 @@
             flex-grow: 1;
             margin-top: 15px;
             overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: flex;
+                overflow-x: auto;
+                white-space: nowrap;
+                gap: 8px;
+                padding-bottom: 5px;
+            }
+            .nav-links li {
+                margin-bottom: 0 !important;
+            }
         }
 
         .nav-links li {
@@ -98,20 +129,28 @@
             background-color: var(--bg-light);
         }
 
+        @media (max-width: 768px) {
+            main {
+                padding: 15px;
+            }
+        }
+
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             border-bottom: 2px solid #E2E8F0;
             padding-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         header h2 {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 700;
             color: var(--primary-color);
-            font-size: 1.5rem;
+            font-size: 1.4rem;
         }
 
         .user-badge {
@@ -142,6 +181,37 @@
 
         .section-view.active {
             display: block;
+        }
+
+        /* Pestañas internas para Iniciar Sesión / Registrarse en el mismo espacio */
+        .auth-toggle-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            background: #E2E8F0;
+            border-radius: 30px;
+            padding: 4px;
+            max-width: 420px;
+            margin: 0 auto 25px auto;
+        }
+
+        .auth-toggle-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .auth-toggle-btn.active {
+            background: var(--primary-color);
+            color: var(--white);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .card-grid {
@@ -192,7 +262,24 @@
 
         .btn-action:hover {
             background-color: var(--secondary-color);
-            color: var(--white);
+        }
+
+        .btn-whatsapp {
+            background-color: var(--whatsapp-green) !important;
+            color: white !important;
+            font-weight: 700 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: var(--whatsapp-dark) !important;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
         }
 
         table {
@@ -203,6 +290,7 @@
             overflow: hidden;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             margin-top: 15px;
+            min-width: 600px;
         }
 
         th, td {
@@ -255,8 +343,7 @@
                 <h1>Haciendo del Turismo</h1>
             </div>
             <ul class="nav-links">
-                <li><a href="#" onclick="switchTab('login', event)" class="active">🔑 Iniciar Sesión</a></li>
-                <li><a href="#" onclick="switchTab('inicio', event)">📝 Registro & Membresía</a></li>
+                <li><a href="#" onclick="switchTab('inicio', event)" class="active">🏠 Acceso & Registro</a></li>
                 <li><a href="#" onclick="switchTab('noticias', event)">📰 Noticias & Blog</a></li>
                 <li><a href="#" onclick="switchTab('colegio', event)">🎓 Colegio Online</a></li>
                 <li><a href="#" onclick="switchTab('comunidad', event)">💬 Chateo Comunidad</a></li>
@@ -267,80 +354,90 @@
                 <li id="nav-admin-item" style="display: none;"><a href="#" onclick="switchTab('admin', event)" style="background: #D69E2E; color: white;">⚙️ Panel Admin</a></li>
             </ul>
         </div>
-        <div style="font-size: 0.75rem; color: var(--neutral-gray); text-align: center;">
-            Firebase Auth + Google Drive
+        <div style="font-size: 0.75rem; color: var(--neutral-gray); text-align: center; margin-top: 15px;">
+            Plataforma Multiplataforma (PC & Móvil)
         </div>
     </aside>
 
     <main>
         <header>
-            <h2 id="header-title">Iniciar Sesión</h2>
+            <h2 id="header-title">Acceso & Registro de Miembros</h2>
             <div class="user-badge" id="badge-status">
                 <span id="badge-text">Estatus: No autenticado</span>
                 <button class="btn-logout" id="btn-logout" onclick="handleLogout()" style="display:none;">Salir</button>
             </div>
         </header>
 
-        <!-- Formulario de Login -->
-        <div id="login" class="section-view active">
-            <div class="card" style="border-top-color: var(--primary-color); max-width: 450px; margin: 0 auto;">
-                <h3>Acceso a Miembros</h3>
-                <p>Ingresa tus credenciales para acceder a la plataforma.</p>
-                
-                <form id="login-form" onsubmit="handleLogin(event)">
-                    <label for="login-email">Correo Electrónico:</label>
-                    <input type="email" id="login-email" placeholder="haciendodelturismo@gmail.com" required>
-
-                    <label for="login-pass">Contraseña:</label>
-                    <input type="password" id="login-pass" placeholder="******" required>
-
-                    <button type="submit" class="btn-action" id="btn-login-submit">Entrar a la Plataforma</button>
-                </form>
-
-                <p style="margin-top: 15px; text-align: center; font-size: 0.85rem;">
-                    ¿Aún no tienes cuenta? <a href="#" onclick="switchTab('inicio', event)" style="color: var(--secondary-color); font-weight: 600;">Regístrate aquí</a>
-                </p>
+        <!-- ESPACIO UNIFICADO: INICIO / ACCESO / REGISTRO DE MEMBRESÍA -->
+        <div id="inicio" class="section-view active">
+            
+            <!-- Selector Unificado de Iniciar Sesión vs Registro -->
+            <div class="auth-toggle-container">
+                <button class="auth-toggle-btn active" id="btn-toggle-login" onclick="toggleAuthMode('login')">🔑 Iniciar Sesión</button>
+                <button class="auth-toggle-btn" id="btn-toggle-register" onclick="toggleAuthMode('register')">📝 Crear Cuenta / Membresía</button>
             </div>
-        </div>
 
-        <!-- Registro de Usuario y Subida de Comprobante -->
-        <div id="inicio" class="section-view">
-            <div class="card" style="border-top-color: var(--primary-color); max-width: 600px; margin: 0 auto;">
-                <h3>Registro de Miembro Oficial</h3>
-                <p>Crea tu cuenta de acceso y sube tu comprobante de suscripción.</p>
-                
-                <div style="background: #EBF8FF; padding: 12px; border-radius: 6px; margin-bottom: 15px; font-size: 0.85rem;">
-                    <strong>Tarifas de Membresía:</strong>
-                    <ul style="margin-left: 20px; margin-top: 5px;">
-                        <li>Plan Mensual: <strong>$200 MXN</strong></li>
-                        <li>Plan Anual: <strong>Pago único con 50% de Descuento</strong></li>
-                    </ul>
-                </div>
-                
-                <form id="register-form" onsubmit="handleUserRegistration(event)">
-                    <label for="user-name">Nombre Completo:</label>
-                    <input type="text" id="user-name" placeholder="Ej. Fernando Guerrero" required>
-
-                    <label for="user-agency">Agencia / Organización:</label>
-                    <input type="text" id="user-agency" placeholder="Ej. Viajes Turísticos SA" required>
-
-                    <label for="user-email">Correo Electrónico:</label>
-                    <input type="email" id="user-email" placeholder="tu-correo@agencia.com" required>
-
-                    <label for="user-pass">Contraseña (Mínimo 6 caracteres):</label>
-                    <input type="password" id="user-pass" placeholder="******" minlength="6" required>
-
-                    <label for="user-plan">Selecciona tu Plan:</label>
-                    <select id="user-plan">
-                        <option value="Plan Mensual ($200 MXN)">Plan Mensual ($200 MXN)</option>
-                        <option value="Plan Anual (50% Descuento)">Plan Anual (50% Descuento)</option>
-                    </select>
-
-                    <label for="payment-file">Comprobante de Pago (Imagen o PDF, máx. 5MB):</label>
-                    <input type="file" id="payment-file" accept="image/*,application/pdf" required>
+            <!-- 1. Formulario de Iniciar Sesión -->
+            <div id="auth-login-box" style="max-width: 500px; margin: 0 auto;">
+                <div class="card" style="border-top-color: var(--primary-color);">
+                    <h3>Iniciar Sesión</h3>
+                    <p>Ingresa tus credenciales para acceder a los beneficios de miembro.</p>
                     
-                    <button type="submit" class="btn-action" id="btn-submit">Crear Cuenta y Registrar Membresía</button>
-                </form>
+                    <form id="login-form" onsubmit="handleLogin(event)">
+                        <label for="login-email">Correo Electrónico:</label>
+                        <input type="email" id="login-email" placeholder="haciendodelturismo@gmail.com" required>
+
+                        <label for="login-pass">Contraseña:</label>
+                        <input type="password" id="login-pass" placeholder="******" required>
+
+                        <button type="submit" class="btn-action" id="btn-login-submit">Entrar a la Plataforma</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 2. Formulario de Registro & Membresía -->
+            <div id="auth-register-box" style="max-width: 600px; margin: 0 auto; display: none;">
+                
+                <!-- Tarjeta de WhatsApp para Solicitar Cuentas / Métodos de Pago -->
+                <div class="card" style="border-top-color: var(--whatsapp-green); background: #F0FDF4; margin-bottom: 20px;">
+                    <h3 style="color: var(--whatsapp-dark);">💳 Métodos de Pago y Datos Bancarios</h3>
+                    <p style="font-size: 0.9rem; color: #166534;">
+                        Solicita las cuentas bancarias para realizar tu pago de membresía (Mensual: $200 MXN o Anual con 50% de Descuento).
+                    </p>
+                    <a href="https://wa.me/qr/5W6KJNINURUDP1" target="_blank" class="btn-action btn-whatsapp">
+                        💬 Solicitar Métodos de Pago por WhatsApp
+                    </a>
+                </div>
+
+                <div class="card" style="border-top-color: var(--primary-color);">
+                    <h3>Registro de Nuevo Miembro</h3>
+                    <p>Crea tu cuenta de acceso y adjunta el comprobante de tu pago realizado.</p>
+                    
+                    <form id="register-form" onsubmit="handleUserRegistration(event)">
+                        <label for="user-name">Nombre Completo:</label>
+                        <input type="text" id="user-name" placeholder="Ej. Fernando Guerrero" required>
+
+                        <label for="user-agency">Agencia / Organización:</label>
+                        <input type="text" id="user-agency" placeholder="Ej. Viajes Turísticos SA" required>
+
+                        <label for="user-email">Correo Electrónico:</label>
+                        <input type="email" id="user-email" placeholder="tu-correo@agencia.com" required>
+
+                        <label for="user-pass">Contraseña (Mínimo 6 caracteres):</label>
+                        <input type="password" id="user-pass" placeholder="******" minlength="6" required>
+
+                        <label for="user-plan">Selecciona tu Plan:</label>
+                        <select id="user-plan">
+                            <option value="Plan Mensual ($200 MXN)">Plan Mensual ($200 MXN)</option>
+                            <option value="Plan Anual (50% Descuento)">Plan Anual (50% Descuento)</option>
+                        </select>
+
+                        <label for="payment-file">Comprobante de Pago (Imagen o PDF, máx. 5MB):</label>
+                        <input type="file" id="payment-file" accept="image/*,application/pdf" required>
+                        
+                        <button type="submit" class="btn-action" id="btn-submit">Enviar Registro y Comprobante</button>
+                    </form>
+                </div>
             </div>
         </div>
 
@@ -413,30 +510,32 @@
 
         <!-- Panel de Administración -->
         <div id="admin" class="section-view">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
                 <div>
                     <h2 style="font-size: 1.3rem; color: var(--primary-color);">Panel de Control de Administración</h2>
                     <p style="font-size: 0.9rem; color: var(--neutral-gray);">Listado de solicitudes de acceso en tiempo real.</p>
                 </div>
                 <a href="https://drive.google.com/drive/folders/1tTQhLn8aEi9Z136eECQnBdvSy-lrY2Wo?usp=sharing" target="_blank" class="btn-action" style="width: auto; padding: 8px 16px; margin: 0; background: #38A169;">📂 Abrir Carpeta de Drive</a>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre / Agencia</th>
-                        <th>Correo Electrónico</th>
-                        <th>Plan</th>
-                        <th>Comprobante</th>
-                        <th>Estatus</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="admin-table-body">
-                    <tr>
-                        <td colspan="6" style="text-align: center;">Cargando usuarios registrados...</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre / Agencia</th>
+                            <th>Correo Electrónico</th>
+                            <th>Plan</th>
+                            <th>Comprobante</th>
+                            <th>Estatus</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-table-body">
+                        <tr>
+                            <td colspan="6" style="text-align: center;">Cargando usuarios registrados...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </main>
 
@@ -482,6 +581,26 @@
 
         let currentUserData = null;
         let unsubscribeAdminListener = null;
+
+        // Cambiar entre Iniciar Sesión y Registro dentro de la misma vista de Inicio
+        window.toggleAuthMode = function(mode) {
+            const loginBox = document.getElementById('auth-login-box');
+            const registerBox = document.getElementById('auth-register-box');
+            const btnLogin = document.getElementById('btn-toggle-login');
+            const btnRegister = document.getElementById('btn-toggle-register');
+
+            if (mode === 'login') {
+                loginBox.style.display = 'block';
+                registerBox.style.display = 'none';
+                btnLogin.classList.add('active');
+                btnRegister.classList.remove('active');
+            } else {
+                loginBox.style.display = 'none';
+                registerBox.style.display = 'block';
+                btnLogin.classList.remove('active');
+                btnRegister.classList.add('active');
+            }
+        };
 
         onAuthStateChanged(auth, async (user) => {
             const badgeText = document.getElementById('badge-text');
@@ -551,8 +670,7 @@
             }
 
             const titles = {
-                'login': 'Iniciar Sesión',
-                'inicio': 'Registro de Usuario & Membresía',
+                'inicio': 'Acceso & Registro de Miembros',
                 'noticias': 'Noticias y Blog Oficial',
                 'colegio': 'Colegio de Turismo Online',
                 'comunidad': 'Espacio de Chateo',
@@ -636,7 +754,7 @@
         window.handleLogout = async function() {
             await signOut(auth);
             alert("Has cerrado sesión.");
-            switchTab('login');
+            switchTab('inicio');
         };
 
         window.handleUserRegistration = async function(e) {
@@ -698,13 +816,13 @@
 
                         alert("¡Cuenta registrada con éxito! Tu comprobante fue enviado a Google Drive.");
                         document.getElementById('register-form').reset();
-                        switchTab('login');
+                        toggleAuthMode('login');
 
                     } catch (uploadErr) {
                         console.error("Error al procesar registro:", uploadErr);
-                        switchTab('login');
+                        toggleAuthMode('login');
                     } finally {
-                        btnSubmit.innerText = "Crear Cuenta y Registrar Membresía";
+                        btnSubmit.innerText = "Enviar Registro y Comprobante";
                         btnSubmit.disabled = false;
                     }
                 };
@@ -712,7 +830,7 @@
             } catch (authErr) {
                 console.error("Error en registro:", authErr);
                 alert(`Error en el registro: ${authErr.message}`);
-                btnSubmit.innerText = "Crear Cuenta y Registrar Membresía";
+                btnSubmit.innerText = "Enviar Registro y Comprobante";
                 btnSubmit.disabled = false;
             }
         };
