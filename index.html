@@ -64,17 +64,25 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* LOGOTIPO AMPLIADO CON FONDO BLANCO REDONDO */
+        /* LOGO INTERNO MÁS GRANDE Y MARGEN BLANCO REDUCIDO AL MÍNIMO */
         .logo-img {
-            width: 130px;
-            height: 130px;
+            width: 120px;
+            height: 120px;
             object-fit: contain;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border-radius: 50%;
             background: #FFFFFF;
-            padding: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            padding: 2px; /* Margen blanco fino para dar espacio al logo interno */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .logo-img {
+                width: 80px;
+                height: 80px;
+                padding: 2px;
+            }
         }
 
         .logo-area h1 {
@@ -415,7 +423,7 @@
     <aside>
         <div>
             <div class="logo-area">
-                <img src="742410_2.png" alt="Haciendo del Turismo Logo" class="logo-img" onerror="this.style.display='none'">
+                <img src="742410_2.png" alt="Haciendo del Turismo Logo" class="logo-img">
                 <h1>Haciendo del Turismo</h1>
             </div>
             <ul class="nav-links">
@@ -541,7 +549,6 @@
 
         <!-- Colegio Online -->
         <div id="colegio" class="section-view">
-            <!-- Botón Superior Directo a la Web Oficial del Colegio -->
             <div style="background: var(--white); padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 5px solid #38A169;">
                 <div>
                     <h3 style="font-size: 1.1rem; color: var(--primary-color);">Colegio de Turismo Online</h3>
