@@ -7,9 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #005776; /* Pantone 7701 C */
-            --secondary-color: #4298B5; /* Pantone 7459 C */
-            --neutral-gray: #888B8D; /* Cool Gray 8 C */
+            --primary-color: #005776;
+            --secondary-color: #4298B5;
+            --neutral-gray: #888B8D;
             --bg-light: #F4F6F8;
             --white: #FFFFFF;
         }
@@ -30,7 +30,6 @@
             font-weight: 400;
         }
 
-        /* Sidebar / Navegación */
         aside {
             width: 280px;
             background-color: var(--primary-color);
@@ -92,7 +91,6 @@
             background-color: var(--secondary-color);
         }
 
-        /* Contenido Principal */
         main {
             flex-grow: 1;
             padding: 30px;
@@ -166,7 +164,7 @@
             background-color: var(--primary-color);
             color: var(--white);
             border: none;
-            padding: 8px 16px;
+            padding: 10px 18px;
             border-radius: 4px;
             cursor: pointer;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -174,6 +172,8 @@
             font-size: 0.85rem;
             text-decoration: none;
             display: inline-block;
+            width: 100%;
+            margin-top: 10px;
         }
 
         .btn-action:hover {
@@ -215,19 +215,25 @@
             font-weight: 600;
         }
 
-        input[type="email"], select, input[type="file"] {
+        input[type="text"], input[type="email"], input[type="password"], select, input[type="file"] {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 12px;
             border: 1px solid #CBD5E0;
             border-radius: 4px;
             font-family: 'Montserrat', sans-serif;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: block;
         }
     </style>
 </head>
 <body>
 
-    <!-- Menú Lateral de Navegación -->
     <aside>
         <div>
             <div class="logo-area">
@@ -235,55 +241,64 @@
                 <h1>Haciendo del Turismo</h1>
             </div>
             <ul class="nav-links">
-                <li><a href="#" onclick="switchTab('inicio')" class="active">🏠 Inicio & Membresía</a></li>
-                <li><a href="#" onclick="switchTab('noticias')">📰 Noticias & Blog</a></li>
-                <li><a href="#" onclick="switchTab('colegio')">🎓 Colegio Online</a></li>
-                <li><a href="#" onclick="switchTab('comunidad')">💬 Chateo Comunidad</a></li>
-                <li><a href="#" onclick="switchTab('podcasts')">🎙️ Podcasts & Redes</a></li>
-                <li><a href="#" onclick="switchTab('asociacion')">🤝 Directorio Asociación</a></li>
-                <li><a href="#" onclick="switchTab('promos')">🏷️ Promociones</a></li>
-                <li><a href="#" onclick="switchTab('admin')">⚙️ Panel Admin (Cloud)</a></li>
+                <li><a href="#" onclick="switchTab('inicio', event)" class="active">🏠 Registro & Membresía</a></li>
+                <li><a href="#" onclick="switchTab('noticias', event)">📰 Noticias & Blog</a></li>
+                <li><a href="#" onclick="switchTab('colegio', event)">🎓 Colegio Online</a></li>
+                <li><a href="#" onclick="switchTab('comunidad', event)">💬 Chateo Comunidad</a></li>
+                <li><a href="#" onclick="switchTab('podcasts', event)">🎙️ Podcasts & Redes</a></li>
+                <li><a href="#" onclick="switchTab('asociacion', event)">🤝 Directorio Asociación</a></li>
+                <li><a href="#" onclick="switchTab('promos', event)">🏷️ Promociones</a></li>
+                <li><a href="#" onclick="switchTab('admin', event)">⚙️ Panel Admin (Cloud)</a></li>
             </ul>
         </div>
         <div style="font-size: 0.75rem; color: var(--neutral-gray); text-align: center;">
-            Firebase + Google Drive
+            Firebase Auth + Firestore + Drive
         </div>
     </aside>
 
-    <!-- Área de Contenido Dinámico -->
     <main>
         <header>
-            <h2 id="header-title">Panel Principal & Membresía</h2>
-            <div class="user-badge" id="badge-status">Estatus: Miembro Pendiente</div>
+            <h2 id="header-title">Registro de Usuario & Membresía</h2>
+            <div class="user-badge" id="badge-status">Estatus: No autenticado</div>
         </header>
 
-        <!-- 1. Inicio y Membresía Cloud -->
+        <!-- 1. Registro de Usuario y Membresía Cloud -->
         <div id="inicio" class="section-view active">
-            <div class="card" style="border-top-color: var(--primary-color); margin-bottom: 20px;">
-                <h3>Membresía Oficial Haciendo del Turismo</h3>
-                <p>Acceso completo al Colegio Online, comunidad y herramientas del sector.</p>
-                <div style="background: #EBF8FF; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
-                    <strong>Opciones de Pago Manual / Transferencia:</strong>
-                    <ul style="margin-left: 20px; margin-top: 5px; font-size: 0.9rem;">
+            <div class="card" style="border-top-color: var(--primary-color); max-width: 600px; margin: 0 auto;">
+                <h3>Registro de Miembro Oficial</h3>
+                <p>Crea tu cuenta de acceso y sube tu comprobante de suscripción.</p>
+                
+                <div style="background: #EBF8FF; padding: 12px; border-radius: 6px; margin-bottom: 15px; font-size: 0.85rem;">
+                    <strong>Tarifas de Membresía:</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
                         <li>Plan Mensual: <strong>$200 MXN</strong></li>
-                        <li>Plan Anual (Pago único con 50% de Descuento)</li>
+                        <li>Plan Anual: <strong>Pago único con 50% de Descuento</strong></li>
                     </ul>
                 </div>
                 
-                <form id="payment-form" onsubmit="handlePaymentSubmit(event)">
-                    <label style="font-size: 0.85rem; font-weight: 600;">Correo Electrónico:</label>
+                <form id="register-form" onsubmit="handleUserRegistration(event)">
+                    <label for="user-name">Nombre Completo:</label>
+                    <input type="text" id="user-name" placeholder="Ej. Fernando Guerrero" required>
+
+                    <label for="user-agency">Agencia / Organización:</label>
+                    <input type="text" id="user-agency" placeholder="Ej. Viajes Turísticos SA" required>
+
+                    <label for="user-email">Correo Electrónico:</label>
                     <input type="email" id="user-email" placeholder="tu-correo@agencia.com" required>
-                    
-                    <label style="font-size: 0.85rem; font-weight: 600;">Selecciona tu Plan:</label>
+
+                    <label for="user-pass">Contraseña (Mínimo 6 caracteres):</label>
+                    <input type="password" id="user-pass" placeholder="******" minlength="6" required>
+
+                    <label for="user-plan">Selecciona tu Plan:</label>
                     <select id="user-plan">
                         <option value="Plan Mensual ($200 MXN)">Plan Mensual ($200 MXN)</option>
                         <option value="Plan Anual (50% Descuento)">Plan Anual (50% Descuento)</option>
                     </select>
 
-                    <label style="font-size: 0.85rem; font-weight: 600;">Comprobante de Pago (Imagen/PDF):</label>
-                    <input type="file" id="payment-file" required>
+                    <label for="payment-file">Comprobante de Pago (Imagen o PDF, máx. 5MB):</label>
+                    <input type="file" id="payment-file" accept="image/*,application/pdf" required>
                     
-                    <button type="submit" class="btn-action" id="btn-submit">Registrar y Subir a Google Drive</button>
+                    <button type="submit" class="btn-action" id="btn-submit">Crear Cuenta y Registrar Membresía</button>
                 </form>
             </div>
         </div>
@@ -295,7 +310,7 @@
                 <div class="card">
                     <h3>Blog Oficial - Haciendo del Turismo</h3>
                     <p>Explora todos los artículos y publicaciones oficiales recientes.</p>
-                    <a href="https://www.haciendodelturismo.com" target="_blank" class="btn-action">Visitar el Blog Web</a>
+                    <a href="https://www.haciendodelturismo.com" target="_blank" class="btn-action" style="text-align: center;">Visitar el Blog Web</a>
                 </div>
             </div>
         </div>
@@ -327,12 +342,12 @@
                 <div class="card">
                     <h3>Podcast en Spotify</h3>
                     <p>Escucha las transmisiones de Turistalking directamente en Spotify.</p>
-                    <a href="https://open.spotify.com/show/7zwDtF4cs6htTV065wFIgd" target="_blank" class="btn-action">Abrir en Spotify</a>
+                    <a href="https://open.spotify.com/show/7zwDtF4cs6htTV065wFIgd" target="_blank" class="btn-action" style="text-align: center;">Abrir en Spotify</a>
                 </div>
                 <div class="card">
                     <h3>Facebook Principal</h3>
                     <p>Sigue nuestras transmisiones en vivo y anuncios en la página de Facebook.</p>
-                    <a href="https://m.facebook.com/HaciendoDelTurismoOficial/" target="_blank" class="btn-action">Visitar Facebook</a>
+                    <a href="https://m.facebook.com/HaciendoDelTurismoOficial/" target="_blank" class="btn-action" style="text-align: center;">Visitar Facebook</a>
                 </div>
             </div>
         </div>
@@ -357,33 +372,48 @@
 
         <!-- 8. Panel de Administración Cloud -->
         <div id="admin" class="section-view">
-            <h2 style="font-size: 1.3rem; margin-bottom: 5px; color: var(--primary-color);">Panel de Control en la Nube</h2>
-            <p style="font-size: 0.9rem; margin-bottom: 15px; color: var(--neutral-gray);">Registros en tiempo real desde Firebase Firestore.</p>
+            <h2 style="font-size: 1.3rem; margin-bottom: 5px; color: var(--primary-color);">Panel de Control de Usuarios Registrados</h2>
+            <p style="font-size: 0.9rem; margin-bottom: 15px; color: var(--neutral-gray);">Registros recibidos en tiempo real.</p>
             <table>
                 <thead>
                     <tr>
+                        <th>Nombre / Agencia</th>
                         <th>Correo Electrónico</th>
-                        <th>Plan Solicitado</th>
-                        <th>Comprobante (Google Drive)</th>
+                        <th>Plan</th>
+                        <th>Comprobante</th>
                         <th>Estatus</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody id="admin-table-body">
                     <tr>
-                        <td colspan="5" style="text-align: center;">Cargando registros de la base de datos...</td>
+                        <td colspan="6" style="text-align: center;">Cargando usuarios registrados...</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </main>
 
-    <!-- Firebase Firestore y Google Drive SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            updateDoc, 
+            serverTimestamp, 
+            query, 
+            collection, 
+            orderBy, 
+            limit, 
+            onSnapshot 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Configuración oficial de Firebase del usuario
         const firebaseConfig = {
             apiKey: "AIzaSyDkhnlxYlAGSANgoeH8Y-KNi1-1OJ9UWY0",
             authDomain: "haciendo-del-turismo.firebaseapp.com",
@@ -395,154 +425,206 @@
         };
 
         const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // URL de Google Drive Apps Script integrada
         const DRIVE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxlAapHmz_XsxdlLWTodSJQ-YJwhFlnXa5DAD3fsZu1ABw2KAv08NYHebQ11o7Cyj8S/exec';
 
-        // Pestañas
-        window.switchTab = function(tabId) {
+        let unsubscribeAdminListener = null;
+
+        // Monitorear estado de sesión del usuario
+        onAuthStateChanged(auth, (user) => {
+            const badge = document.getElementById('badge-status');
+            if (user) {
+                badge.innerText = `Sesión activa: ${user.email}`;
+                badge.style.backgroundColor = '#38A169';
+            } else {
+                badge.innerText = "Estatus: No autenticado";
+                badge.style.backgroundColor = 'var(--secondary-color)';
+            }
+        });
+
+        window.switchTab = function(tabId, evt) {
             document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-links a').forEach(el => el.classList.remove('active'));
 
             document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+            if (evt && evt.currentTarget) {
+                evt.currentTarget.classList.add('active');
+            }
 
             const titles = {
-                'inicio': 'Panel Principal & Membresía',
+                'inicio': 'Registro de Usuario & Membresía',
                 'noticias': 'Noticias y Blog Oficial',
                 'colegio': 'Colegio de Turismo Online',
                 'comunidad': 'Espacio de Chateo',
                 'podcasts': 'Podcast en Spotify y Facebook Principal',
                 'asociacion': 'Directorio de la Asociación',
                 'promos': 'Últimas Promociones',
-                'admin': 'Panel de Administración en la Nube'
+                'admin': 'Panel de Control de Usuarios Registrados'
             };
             document.getElementById('header-title').innerText = titles[tabId];
 
             if(tabId === 'admin') {
-                cargarRegistrosAdmin();
+                escucharRegistrosAdmin();
+            } else if (unsubscribeAdminListener) {
+                unsubscribeAdminListener();
+                unsubscribeAdminListener = null;
             }
         };
 
-        // Enviar Formulario de Pago y Comprobante (Hacia Google Drive + Firebase)
-        window.handlePaymentSubmit = async function(e) {
+        // Función de Registro Completo de Usuario
+        window.handleUserRegistration = async function(e) {
             e.preventDefault();
-            const email = document.getElementById('user-email').value;
+            
+            const name = document.getElementById('user-name').value.trim();
+            const agency = document.getElementById('user-agency').value.trim();
+            const email = document.getElementById('user-email').value.trim();
+            const password = document.getElementById('user-pass').value;
             const plan = document.getElementById('user-plan').value;
             const fileInput = document.getElementById('payment-file');
             const btnSubmit = document.getElementById('btn-submit');
 
-            if(fileInput.files.length === 0) {
+            if (fileInput.files.length === 0) {
                 alert("Por favor selecciona tu archivo de comprobante.");
                 return;
             }
 
-            btnSubmit.innerText = "Subiendo archivo a Google Drive...";
+            const file = fileInput.files[0];
+            if (file.size > 5 * 1024 * 1024) {
+                alert("El archivo supera el límite de 5 MB. Por favor elige un archivo más liviano.");
+                return;
+            }
+
+            btnSubmit.innerText = "Creando cuenta y procesando comprobante...";
             btnSubmit.disabled = true;
 
             try {
-                const file = fileInput.files[0];
-                
-                // Convertir archivo a Base64 para enviarlo a Google Apps Script
+                // 1. Crear usuario en Firebase Authentication
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const uid = userCredential.user.uid;
+
+                // 2. Subir comprobante a Google Drive
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
-                
+
                 reader.onload = async function () {
-                    const base64Content = reader.result.split(',')[1];
+                    try {
+                        const base64Content = reader.result.split(',')[1];
 
-                    // 1. Enviar a Google Drive
-                    const response = await fetch(DRIVE_WEB_APP_URL, {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            fileName: file.name,
-                            mimeType: file.type,
-                            fileData: base64Content
-                        })
-                    });
+                        const response = await fetch(DRIVE_WEB_APP_URL, {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                fileName: `${uid}_${file.name}`,
+                                mimeType: file.type,
+                                fileData: base64Content
+                            })
+                        });
 
-                    const result = await response.json();
+                        const result = await response.json();
+                        if (result.status !== 'success') {
+                            throw new Error(result.message || "Error al subir comprobante a Drive");
+                        }
 
-                    if(result.status !== 'success') {
-                        throw new Error("Error al subir a Google Drive");
+                        const driveUrl = result.fileUrl;
+
+                        // 3. Guardar perfil del usuario en Firestore (Colección "usuarios")
+                        await setDoc(doc(db, "usuarios", uid), {
+                            uid: uid,
+                            nombre: name,
+                            agencia: agency,
+                            email: email,
+                            plan: plan,
+                            comprobanteUrl: driveUrl,
+                            estatus: "En Revisión",
+                            fechaRegistro: serverTimestamp()
+                        });
+
+                        alert("¡Cuenta creada exitosamente! Tu comprobante está en revisión por el equipo administrativo.");
+                        document.getElementById('register-form').reset();
+
+                    } catch (uploadErr) {
+                        console.error("Error subiendo datos:", uploadErr);
+                        alert("La cuenta fue creada, pero hubo un detalle con la subida del comprobante. Contacta al administrador.");
+                    } finally {
+                        btnSubmit.innerText = "Crear Cuenta y Registrar Membresía";
+                        btnSubmit.disabled = false;
                     }
-
-                    const driveFileUrl = result.fileUrl;
-
-                    // 2. Guardar datos en Firestore
-                    await addDoc(collection(db, "registros_pagos"), {
-                        email: email,
-                        plan: plan,
-                        comprobanteUrl: driveFileUrl,
-                        fileName: file.name,
-                        estatus: "En Revisión",
-                        fecha: serverTimestamp()
-                    });
-
-                    alert("¡Comprobante enviado a Google Drive y registrado con éxito!");
-                    document.getElementById('payment-form').reset();
-                    document.getElementById('badge-status').innerText = "Estatus: En Revisión por Administración";
-                    btnSubmit.innerText = "Registrar y Subir a Google Drive";
-                    btnSubmit.disabled = false;
                 };
 
-            } catch (error) {
-                console.error("Error al registrar: ", error);
-                alert("Hubo un error al procesar el archivo. Revisa que el script esté implementado correctamente con acceso público.");
-                btnSubmit.innerText = "Registrar y Subir a Google Drive";
+            } catch (authErr) {
+                console.error("Error de Registro Firebase Auth:", authErr);
+                if (authErr.code === 'auth/email-already-in-use') {
+                    alert("Este correo electrónico ya se encuentra registrado. Intenta iniciar sesión.");
+                } else if (authErr.code === 'auth/weak-password') {
+                    alert("La contraseña debe tener al menos 6 caracteres.");
+                } else {
+                    alert(`Error en el registro: ${authErr.message}`);
+                }
+                btnSubmit.innerText = "Crear Cuenta y Registrar Membresía";
                 btnSubmit.disabled = false;
             }
         };
 
-      / Cargar datos en el Panel de Administración
-        async function cargarRegistrosAdmin() {
+        // Escuchador en tiempo real para Panel Admin
+        function escucharRegistrosAdmin() {
             const tbody = document.getElementById('admin-table-body');
-            tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">Cargando datos en tiempo real...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">Cargando usuarios registrados...</td></tr>`;
 
-            try {
-                const querySnapshot = await getDocs(collection(db, "registros_pagos"));
+            const q = query(
+                collection(db, "usuarios"), 
+                orderBy("fechaRegistro", "desc"), 
+                limit(20)
+            );
+
+            unsubscribeAdminListener = onSnapshot(q, (snapshot) => {
                 tbody.innerHTML = "";
 
-                if(querySnapshot.empty) {
-                    tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">No hay registros pendientes aún.</td></tr>`;
+                if (snapshot.empty) {
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">No hay usuarios registrados aún.</td></tr>`;
                     return;
                 }
 
-                querySnapshot.forEach((docSnap) => {
+                snapshot.forEach((docSnap) => {
                     const data = docSnap.data();
                     const id = docSnap.id;
                     const estatusClass = data.estatus === 'Aprobado' ? 'status-approved' : 'status-pending';
 
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td>${data.email}</td>
-                        <td>${data.plan}</td>
-                        <td><a href="${data.comprobanteUrl}" target="_blank" style="color: var(--secondary-color); font-weight:600;">📂 Ver en Drive</a></td>
-                        <td><span class="${estatusClass}">${data.estatus}</span></td>
-                        <td><button class="btn-action" onclick="aprobarUsuario('${id}')" style="padding: 4px 8px;">Aprobar</button></td>
+                        <td><strong>${escapeHtml(data.nombre || 'N/A')}</strong><br><small style="color:var(--neutral-gray);">${escapeHtml(data.agencia || '')}</small></td>
+                        <td>${escapeHtml(data.email || '')}</td>
+                        <td>${escapeHtml(data.plan || '')}</td>
+                        <td><a href="${escapeHtml(data.comprobanteUrl || '#')}" target="_blank" style="color: var(--secondary-color); font-weight:600;">📂 Ver en Drive</a></td>
+                        <td><span class="${estatusClass}">${escapeHtml(data.estatus || 'En Revisión')}</span></td>
+                        <td><button class="btn-action" onclick="aprobarUsuario('${id}')" style="padding: 4px 8px; margin:0; width:auto;">Aprobar</button></td>
                     `;
                     tbody.appendChild(tr);
                 });
-            } catch (error) {
-                console.error("Error al cargar admin:", error);
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: red;">Error al conectar con la base de datos.</td></tr>`;
-            }
+            }, (err) => {
+                console.error("Error en lectura Admin:", err);
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: red;">Error de conexión con la base de datos. Verifica reglas de seguridad de Firestore.</td></tr>`;
+            });
         }
 
-        // Función para aprobar pagos desde el panel
-        window.aprobarUsuario = async function(id) {
+        window.aprobarUsuario = async function(uid) {
             try {
-                const docRef = doc(db, "registros_pagos", id);
-                await updateDoc(docRef, {
+                const userRef = doc(db, "usuarios", uid);
+                await updateDoc(userRef, {
                     estatus: "Aprobado"
                 });
-                alert("¡Usuario aprobado correctamente!");
-                cargarRegistrosAdmin();
+                alert("¡Usuario aprobado y activado correctamente!");
             } catch (error) {
                 console.error("Error al aprobar:", error);
-                alert("No se pudo actualizar el estatus.");
+                alert("No se pudo actualizar el estatus del usuario.");
             }
+        };
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
         }
     </script>
 </body>
-</html>  
+</html>
