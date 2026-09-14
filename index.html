@@ -64,7 +64,6 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* LOGO INTERNO MÁS GRANDE Y MARGEN BLANCO REDUCIDO AL MÍNIMO */
         .logo-img {
             width: 120px;
             height: 120px;
@@ -72,7 +71,7 @@
             margin-bottom: 10px;
             border-radius: 50%;
             background: #FFFFFF;
-            padding: 2px; /* Margen blanco fino para dar espacio al logo interno */
+            padding: 2px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             display: inline-block;
         }
@@ -132,6 +131,30 @@
             background-color: var(--secondary-color);
         }
 
+        .aside-footer {
+            margin-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 15px;
+        }
+
+        .btn-logout-sidebar {
+            background-color: #E53E3E;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            width: 100%;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: none;
+        }
+
+        .btn-logout-sidebar:hover {
+            background-color: #C53030;
+        }
+
         main {
             flex-grow: 1;
             padding: 30px;
@@ -175,14 +198,12 @@
             gap: 10px;
         }
 
-        .btn-logout {
-            background: #E53E3E;
-            color: white;
-            border: none;
-            padding: 3px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.75rem;
+        .profile-avatar-small {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #fff;
         }
 
         .section-view {
@@ -416,6 +437,17 @@
             margin-bottom: 4px;
             display: block;
         }
+
+        /* Foto de perfil grande en vista Ajustes */
+        .profile-preview-large {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            margin-bottom: 15px;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -427,18 +459,28 @@
                 <h1>Haciendo del Turismo</h1>
             </div>
             <ul class="nav-links">
-                <li><a href="#" onclick="switchTab('inicio', event)" class="active">🏠 Acceso & Registro</a></li>
+                <!-- Visibles solo cuando NO está autenticado -->
+                <li id="nav-access-item"><a href="#" onclick="switchTab('inicio', event)" class="active">🏠 Acceso & Registro</a></li>
+                
+                <!-- Pestañas visibles para miembros registrados -->
+                <li id="nav-profile-item" style="display: none;"><a href="#" onclick="switchTab('perfil', event)">👤 Mi Perfil</a></li>
                 <li><a href="#" onclick="switchTab('noticias', event)">📰 Noticias & Blog</a></li>
                 <li><a href="#" onclick="switchTab('colegio', event)">🎓 Colegio Online</a></li>
                 <li><a href="#" onclick="switchTab('comunidad', event)">💬 Chateo Comunidad</a></li>
                 <li><a href="#" onclick="switchTab('podcasts', event)">🎙️ Podcasts & Redes</a></li>
                 <li><a href="#" onclick="switchTab('asociacion', event)">🤝 Directorio Asociación</a></li>
                 <li><a href="#" onclick="switchTab('promos', event)">🏷️ Promociones</a></li>
+                
+                <!-- Pestaña reservada para Administradores -->
                 <li id="nav-admin-item" style="display: none;"><a href="#" onclick="switchTab('admin', event)" style="background: #D69E2E; color: white;">⚙️ Panel Admin</a></li>
             </ul>
         </div>
-        <div style="font-size: 0.75rem; color: var(--neutral-gray); text-align: center; margin-top: 15px;">
-            Plataforma Multiplataforma (PC & Móvil)
+        
+        <div class="aside-footer">
+            <button class="btn-logout-sidebar" id="btn-logout-sidebar" onclick="handleLogout()">🔴 Cerrar Sesión</button>
+            <div style="font-size: 0.75rem; color: var(--neutral-gray); text-align: center; margin-top: 10px;">
+                Plataforma Multiplataforma (PC & Móvil)
+            </div>
         </div>
     </aside>
 
@@ -446,14 +488,13 @@
         <header>
             <h2 id="header-title">Acceso & Registro de Miembros</h2>
             <div class="user-badge" id="badge-status">
+                <img src="https://via.placeholder.com/30" alt="Avatar" class="profile-avatar-small" id="header-avatar" style="display:none;">
                 <span id="badge-text">Estatus: No autenticado</span>
-                <button class="btn-logout" id="btn-logout" onclick="handleLogout()" style="display:none;">Salir</button>
             </div>
         </header>
 
-        <!-- ESPACIO UNIFICADO: ACCESO / REGISTRO DE MEMBRESÍA -->
+        <!-- ESPACIO DE ACCESO Y REGISTRO (Solo visible cuando NO se ha iniciado sesión) -->
         <div id="inicio" class="section-view active">
-            
             <div class="auth-toggle-container">
                 <button class="auth-toggle-btn active" id="btn-toggle-login" onclick="toggleAuthMode('login')">🔑 Iniciar Sesión</button>
                 <button class="auth-toggle-btn" id="btn-toggle-register" onclick="toggleAuthMode('register')">📝 Crear Cuenta / Membresía</button>
@@ -482,7 +523,6 @@
 
             <!-- Formulario Registro de Membresía -->
             <div id="auth-register-box" style="max-width: 600px; margin: 0 auto; display: none;">
-                
                 <div class="card" style="border-top-color: var(--whatsapp-green); background: #F0FDF4; margin-bottom: 20px;">
                     <h3 style="color: var(--whatsapp-dark);">💳 Métodos de Pago y Datos Bancarios</h3>
                     <p style="font-size: 0.9rem; color: #166534;">
@@ -532,6 +572,37 @@
                         <button type="submit" class="btn-action" id="btn-submit">Enviar Registro y Comprobante</button>
                     </form>
                 </div>
+            </div>
+        </div>
+
+        <!-- NUEVA SECCIÓN: PERFIL Y AJUSTES DE USUARIO -->
+        <div id="perfil" class="section-view">
+            <div class="card" style="max-width: 600px; margin: 0 auto; border-top-color: var(--primary-color);">
+                <h3>Ajustes de Perfil de Miembro</h3>
+                <p>Actualiza tus datos personales, contraseña y fotografía de perfil.</p>
+                
+                <div style="text-align: center; margin-top: 15px;">
+                    <img src="https://via.placeholder.com/110" alt="Foto de Perfil" class="profile-preview-large" id="profile-img-preview">
+                </div>
+
+                <form id="profile-update-form" onsubmit="handleProfileUpdate(event)">
+                    <label for="profile-photo-file">Cambiar Fotografía de Perfil (Imagen JPG/PNG):</label>
+                    <input type="file" id="profile-photo-file" accept="image/*">
+
+                    <label for="profile-name">Nombre Completo:</label>
+                    <input type="text" id="profile-name" required>
+
+                    <label for="profile-agency">Agencia / Organización:</label>
+                    <input type="text" id="profile-agency" required>
+
+                    <label for="profile-new-pass">Nueva Contraseña (Dejar en blanco para conservar la actual):</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="profile-new-pass" placeholder="******" minlength="6">
+                        <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('profile-new-pass', this)">👁️</button>
+                    </div>
+
+                    <button type="submit" class="btn-action" id="btn-update-profile">Guardar Cambios del Perfil</button>
+                </form>
             </div>
         </div>
 
@@ -682,6 +753,7 @@
             getAuth, 
             createUserWithEmailAndPassword, 
             signInWithEmailAndPassword, 
+            updatePassword,
             signOut, 
             onAuthStateChanged 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -751,15 +823,24 @@
             }
         };
 
+        /* CONTROL CENTRAL DE SESIÓN Y VISTAS */
         onAuthStateChanged(auth, async (user) => {
             const badgeText = document.getElementById('badge-text');
-            const btnLogout = document.getElementById('btn-logout');
+            const btnLogoutSidebar = document.getElementById('btn-logout-sidebar');
+            const navAccessItem = document.getElementById('nav-access-item');
+            const navProfileItem = document.getElementById('nav-profile-item');
             const navAdminItem = document.getElementById('nav-admin-item');
+            const headerAvatar = document.getElementById('header-avatar');
             const chatInput = document.getElementById('chat-input-text');
             const chatBtn = document.getElementById('chat-btn-submit');
             const chatWarning = document.getElementById('chat-role-warning');
 
             if (user) {
+                // Usuario Autenticado: Ocultar acceso y mostrar opciones de miembro
+                navAccessItem.style.display = 'none';
+                navProfileItem.style.display = 'block';
+                btnLogoutSidebar.style.display = 'block';
+
                 const userDoc = await getDoc(doc(db, "usuarios", user.uid));
                 let estatus = 'En Revisión';
                 let rol = 'usuario';
@@ -779,6 +860,14 @@
                         currentUserData.rol = 'admin';
                         currentUserData.estatus = 'Aprobado';
                     }
+                }
+
+                // Cargar foto de perfil en el header si existe
+                if (currentUserData.fotoUrl) {
+                    headerAvatar.src = currentUserData.fotoUrl;
+                    headerAvatar.style.display = 'inline-block';
+                } else {
+                    headerAvatar.style.display = 'none';
                 }
 
                 let badgeRole = 'MIEMBRO';
@@ -805,17 +894,30 @@
                     chatWarning.style.display = 'block';
                 }
 
-                btnLogout.style.display = 'inline-block';
+                // Llenar formulario de Perfil
+                document.getElementById('profile-name').value = currentUserData.nombre || '';
+                document.getElementById('profile-agency').value = currentUserData.agencia || '';
+                if (currentUserData.fotoUrl) {
+                    document.getElementById('profile-img-preview').src = currentUserData.fotoUrl;
+                }
+
             } else {
+                // Usuario NO Autenticado: Mostrar solo pestana Acceso/Registro
                 currentUserData = null;
+                navAccessItem.style.display = 'block';
+                navProfileItem.style.display = 'none';
                 navAdminItem.style.display = 'none';
+                btnLogoutSidebar.style.display = 'none';
+                headerAvatar.style.display = 'none';
+
                 badgeText.innerText = "Estatus: No autenticado";
                 badgeText.parentElement.style.backgroundColor = 'var(--secondary-color)';
-                btnLogout.style.display = 'none';
 
                 chatInput.disabled = true;
                 chatBtn.disabled = true;
                 chatWarning.style.display = 'block';
+
+                switchTab('inicio');
             }
         });
 
@@ -841,6 +943,7 @@
 
             const titles = {
                 'inicio': 'Acceso & Registro de Miembros',
+                'perfil': 'Ajustes de Perfil de Miembro',
                 'noticias': 'Noticias y Blog Oficial',
                 'colegio': 'Colegio de Turismo Online',
                 'comunidad': 'Muro de Debates Profesionales',
@@ -904,17 +1007,8 @@
                 if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                     alert(`¡Bienvenido Administrador!`);
                     switchTab('admin');
-                } else if (userDoc.exists()) {
-                    const data = userDoc.data();
-                    if (data.estatus === 'Aprobado') {
-                        alert(`¡Bienvenido, ${data.nombre}!`);
-                        switchTab('colegio');
-                    } else {
-                        alert(`Tu cuenta se encuentra en revisión. Un administrador aprobará tu acceso en breve.`);
-                        switchTab('noticias');
-                    }
                 } else {
-                    switchTab('noticias');
+                    switchTab('colegio');
                 }
             } catch (err) {
                 console.error("Error Login:", err);
@@ -1016,6 +1110,59 @@
                 alert(`Error en el registro: ${authErr.message}`);
                 btnSubmit.innerText = "Enviar Registro y Comprobante";
                 btnSubmit.disabled = false;
+            }
+        };
+
+        /* GUARDAR CAMBIOS DE PERFIL (Nombre, Agencia, Foto y Contraseña) */
+        window.handleProfileUpdate = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-update-profile');
+            const newName = document.getElementById('profile-name').value.trim();
+            const newAgency = document.getElementById('profile-agency').value.trim();
+            const newPass = document.getElementById('profile-new-pass').value;
+            const photoInput = document.getElementById('profile-photo-file');
+
+            btn.innerText = "Guardando cambios...";
+            btn.disabled = true;
+
+            try {
+                const user = auth.currentUser;
+                if (!user) return;
+
+                let updatePayload = {
+                    nombre: newName,
+                    agencia: newAgency
+                };
+
+                // Si se selecciona una nueva foto de perfil, convertir a base64
+                if (photoInput.files.length > 0) {
+                    const photoFile = photoInput.files[0];
+                    const photoBase64 = await new Promise((resolve) => {
+                        const r = new FileReader();
+                        r.onload = () => resolve(r.result);
+                        r.readAsDataURL(photoFile);
+                    });
+                    updatePayload.fotoUrl = photoBase64;
+                    document.getElementById('profile-img-preview').src = photoBase64;
+                    document.getElementById('header-avatar').src = photoBase64;
+                    document.getElementById('header-avatar').style.display = 'inline-block';
+                }
+
+                await updateDoc(doc(db, "usuarios", user.uid), updatePayload);
+
+                // Si se escribió una nueva contraseña, actualizar en Auth
+                if (newPass && newPass.length >= 6) {
+                    await updatePassword(user, newPass);
+                    document.getElementById('profile-new-pass').value = "";
+                }
+
+                alert("¡Perfil actualizado con éxito!");
+            } catch (err) {
+                console.error("Error al actualizar perfil:", err);
+                alert("Error al actualizar: " + err.message);
+            } finally {
+                btn.innerText = "Guardar Cambios del Perfil";
+                btn.disabled = false;
             }
         };
 
