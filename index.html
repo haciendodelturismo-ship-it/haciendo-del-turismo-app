@@ -295,7 +295,7 @@
                 <div class="card">
                     <h3>Blog Oficial - Haciendo del Turismo</h3>
                     <p>Explora todos los artículos y publicaciones oficiales recientes.</p>
-                    <a href="https://www.haceindodelturismo.com" target="_blank" class="btn-action">Visitar el Blog Web</a>
+                    <a href="https://www.haciendodelturismo.com" target="_blank" class="btn-action">Visitar el Blog Web</a>
                 </div>
             </div>
         </div>
@@ -381,7 +381,7 @@
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, add슐, getDocs, doc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
         // Configuración oficial de Firebase del usuario
@@ -462,7 +462,7 @@
                 document.getElementById('badge-status').innerText = "Estatus: En Revisión por Administración";
             } catch (error) {
                 console.error("Error al registrar: ", error);
-                alert("Hubo un error al subir el archivo. Revisa la consola.");
+                alert("Hubo un error al subir el archivo. Revisa la consola (F12) para más detalles.");
             } finally {
                 btnSubmit.innerText = "Registrar y Subir a la Nube";
                 btnSubmit.disabled = false;
@@ -504,4 +504,20 @@
             }
         }
 
-        // Función para aprobar pagos desde el pane
+        // Función para aprobar pagos desde el panel
+        window.aprobarUsuario = async function(id) {
+            try {
+                const docRef = doc(db, "registros_pagos", id);
+                await updateDoc(docRef, {
+                    estatus: "Aprobado"
+                });
+                alert("¡Usuario aprobado correctamente!");
+                cargarRegistrosAdmin();
+            } catch (error) {
+                console.error("Error al aprobar:", error);
+                alert("No se pudo actualizar el estatus.");
+            }
+        }
+    </script>
+</body>
+</html>
