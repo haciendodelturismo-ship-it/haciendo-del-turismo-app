@@ -263,7 +263,7 @@
                 <li><a href="#" onclick="switchTab('podcasts', event)">🎙️ Podcasts & Redes</a></li>
                 <li><a href="#" onclick="switchTab('asociacion', event)">🤝 Directorio Asociación</a></li>
                 <li><a href="#" onclick="switchTab('promos', event)">🏷️ Promociones</a></li>
-                <!-- Pestaña reservada únicamente para administradores -->
+                <!-- Pestaña visible únicamente para cuentas con rol Admin -->
                 <li id="nav-admin-item" style="display: none;"><a href="#" onclick="switchTab('admin', event)" style="background: #D69E2E; color: white;">⚙️ Panel Admin</a></li>
             </ul>
         </div>
@@ -411,7 +411,7 @@
             </div>
         </div>
 
-        <!-- Panel de Administración Oculto para Usuarios Regular -->
+        <!-- Panel de Administración -->
         <div id="admin" class="section-view">
             <h2 style="font-size: 1.3rem; margin-bottom: 5px; color: var(--primary-color);">Panel de Control de Administración</h2>
             <p style="font-size: 0.9rem; margin-bottom: 15px; color: var(--neutral-gray);">Listado de solicitudes de acceso en tiempo real.</p>
@@ -472,13 +472,13 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // URL Oficial de Apps Script Integrada
-        const DRIVE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxEnDbG5Uzh8YJ9Wbu0FnGflu9wit4SAwj7k5E1RqPSzTh1SCFzVbiTVFO4OWZaasLr/exec';
+        // URL Oficial de Google Apps Script (Nueva Versión Integrada)
+        const DRIVE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw5IcNxPJKlt8b7cgXRLLrmYlBlpQM_f4TFvL67UAdqFBGbBbJmo7o3NLTuT8VGxW3b/exec';
 
         let currentUserData = null;
         let unsubscribeAdminListener = null;
 
-        // Listener de autenticación de usuario
+        // Monitorear estado de sesión del usuario
         onAuthStateChanged(auth, async (user) => {
             const badgeText = document.getElementById('badge-text');
             const btnLogout = document.getElementById('btn-logout');
@@ -511,11 +511,11 @@
             }
         });
 
-        // Cambio de vistas protegidas
+        // Alternar vistas navegables
         window.switchTab = function(tabId, evt) {
             if (tabId === 'admin') {
                 if (!currentUserData || currentUserData.rol !== 'admin') {
-                    alert("Acceso restringido: Esta sección requiere perfil de Administrador.");
+                    alert("Acceso denegado: Esta área está reservada para administradores.");
                     return;
                 }
             }
@@ -590,14 +590,14 @@
             }
         };
 
-        // Logout
+        // Cerrar sesión
         window.handleLogout = async function() {
             await signOut(auth);
             alert("Has cerrado sesión.");
             switchTab('login');
         };
 
-        // Registro de Usuario + Subida a Drive + Guardado en Firestore
+        // Registro + Envío a Apps Script y Firestore
         window.handleUserRegistration = async function(e) {
             e.preventDefault();
             
@@ -615,7 +615,7 @@
             }
 
             const file = fileInput.files[0];
-            btnSubmit.innerText = "Subiendo archivo y registrando...";
+            btnSubmit.innerText = "Subiendo archivo a Google Drive...";
             btnSubmit.disabled = true;
 
             try {
@@ -639,7 +639,7 @@
                         });
 
                         const result = await response.json();
-                        const driveUrl = result.status === 'success' ? result.fileUrl : 'Error al subir';
+                        const driveUrl = result.status === 'success' ? result.fileUrl : 'Error al subir a Drive';
 
                         await setDoc(doc(db, "usuarios", uid), {
                             uid: uid,
@@ -653,7 +653,7 @@
                             fechaRegistro: serverTimestamp()
                         });
 
-                        alert("¡Cuenta registrada con éxito! Tu comprobante está en revisión por la administración.");
+                        alert("¡Cuenta registrada con éxito! Tu comprobante fue enviado a Google Drive y está en revisión.");
                         document.getElementById('register-form').reset();
                         switchTab('login');
 
@@ -674,7 +674,7 @@
             }
         };
 
-        // Escuchar datos del Panel Admin
+        // Escuchar solicitudes en tiempo real desde Panel Admin
         function escucharRegistrosAdmin() {
             const tbody = document.getElementById('admin-table-body');
             tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">Cargando usuarios registrados...</td></tr>`;
@@ -721,7 +721,7 @@
                 alert("¡Usuario APROBADO correctamente!");
             } catch (error) {
                 console.error("Error al aprobar:", error);
-                alert("No se pudo aprobar al usuario.");
+                alert("No se pudo aprobar al usuario. Revisa las reglas de Firestore.");
             }
         };
 
