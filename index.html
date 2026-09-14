@@ -1,3 +1,6 @@
+ var(--primary-color);
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -263,7 +266,7 @@
                 <li><a href="#" onclick="switchTab('podcasts', event)">🎙️ Podcasts & Redes</a></li>
                 <li><a href="#" onclick="switchTab('asociacion', event)">🤝 Directorio Asociación</a></li>
                 <li><a href="#" onclick="switchTab('promos', event)">🏷️ Promociones</a></li>
-                <!-- Pestaña visible únicamente para cuentas con rol Admin -->
+                <!-- Pestaña visible para Administradores -->
                 <li id="nav-admin-item" style="display: none;"><a href="#" onclick="switchTab('admin', event)" style="background: #D69E2E; color: white;">⚙️ Panel Admin</a></li>
             </ul>
         </div>
@@ -472,13 +475,12 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // URL Oficial de Google Apps Script (Nueva Versión Integrada)
         const DRIVE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw5IcNxPJKlt8b7cgXRLLrmYlBlpQM_f4TFvL67UAdqFBGbBbJmo7o3NLTuT8VGxW3b/exec';
 
         let currentUserData = null;
         let unsubscribeAdminListener = null;
 
-        // Monitorear estado de sesión del usuario
+        // Listener con detección de administrador automático
         onAuthStateChanged(auth, async (user) => {
             const badgeText = document.getElementById('badge-text');
             const btnLogout = document.getElementById('btn-logout');
@@ -486,21 +488,33 @@
 
             if (user) {
                 const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+                let estatus = 'En Revisión';
+                let rol = 'usuario';
+
                 if (userDoc.exists()) {
                     currentUserData = userDoc.data();
-                    const estatus = currentUserData.estatus || 'En Revisión';
-                    const rol = currentUserData.rol || 'usuario';
-
-                    badgeText.innerText = `${user.email} (${rol === 'admin' ? 'ADMINISTRADOR' : estatus})`;
-                    
-                    if (rol === 'admin') {
-                        navAdminItem.style.display = 'block';
-                        badgeText.parentElement.style.backgroundColor = '#005776';
-                    } else {
-                        navAdminItem.style.display = 'none';
-                        badgeText.parentElement.style.backgroundColor = estatus === 'Aprobado' ? '#38A169' : '#D69E2E';
-                    }
+                    estatus = currentUserData.estatus || 'En Revisión';
+                    rol = currentUserData.rol || 'usuario';
+                } else {
+                    currentUserData = { email: user.email, estatus: 'En Revisión', rol: 'usuario' };
                 }
+
+                // Otorga permisos ADMIN automáticamente a cualquier cuenta de tu dominio o correo principal
+                if (user.email.includes("haciendodelturismo") || rol === 'admin') {
+                    rol = 'admin';
+                    currentUserData.rol = 'admin';
+                }
+
+                badgeText.innerText = `${user.email} (${rol === 'admin' ? 'ADMINISTRADOR' : estatus})`;
+                
+                if (rol === 'admin') {
+                    navAdminItem.style.display = 'block';
+                    badgeText.parentElement.style.backgroundColor = '#005776';
+                } else {
+                    navAdminItem.style.display = 'none';
+                    badgeText.parentElement.style.backgroundColor = estatus === 'Aprobado' ? '#38A169' : '#D69E2E';
+                }
+
                 btnLogout.style.display = 'inline-block';
             } else {
                 currentUserData = null;
@@ -511,7 +525,6 @@
             }
         });
 
-        // Alternar vistas navegables
         window.switchTab = function(tabId, evt) {
             if (tabId === 'admin') {
                 if (!currentUserData || currentUserData.rol !== 'admin') {
@@ -553,7 +566,6 @@
             }
         };
 
-        // Función de Login
         window.handleLogin = async function(e) {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
@@ -570,8 +582,8 @@
                 const userDoc = await getDoc(doc(db, "usuarios", uid));
                 if (userDoc.exists()) {
                     const data = userDoc.data();
-                    if (data.rol === 'admin') {
-                        alert(`¡Bienvenido Administrador, ${data.nombre}!`);
+                    if (data.rol === 'admin' || email.includes("haciendodelturismo")) {
+                        alert(`¡Bienvenido Administrador!`);
                         switchTab('admin');
                     } else if (data.estatus === 'Aprobado') {
                         alert(`¡Bienvenido, ${data.nombre}!`);
@@ -580,6 +592,8 @@
                         alert(`Tu cuenta se encuentra en revisión. Un administrador aprobará tu acceso en breve.`);
                         switchTab('noticias');
                     }
+                } else {
+                    switchTab('noticias');
                 }
             } catch (err) {
                 console.error("Error Login:", err);
@@ -590,14 +604,12 @@
             }
         };
 
-        // Cerrar sesión
         window.handleLogout = async function() {
             await signOut(auth);
             alert("Has cerrado sesión.");
             switchTab('login');
         };
 
-        // Registro + Envío a Apps Script y Firestore
         window.handleUserRegistration = async function(e) {
             e.preventDefault();
             
@@ -641,6 +653,8 @@
                         const result = await response.json();
                         const driveUrl = result.status === 'success' ? result.fileUrl : 'Error al subir a Drive';
 
+                        const esAdmin = email.includes("haciendodelturismo");
+
                         await setDoc(doc(db, "usuarios", uid), {
                             uid: uid,
                             nombre: name,
@@ -648,12 +662,12 @@
                             email: email,
                             plan: plan,
                             comprobanteUrl: driveUrl,
-                            estatus: "En Revisión",
-                            rol: "usuario",
+                            estatus: esAdmin ? "Aprobado" : "En Revisión",
+                            rol: esAdmin ? "admin" : "usuario",
                             fechaRegistro: serverTimestamp()
                         });
 
-                        alert("¡Cuenta registrada con éxito! Tu comprobante fue enviado a Google Drive y está en revisión.");
+                        alert("¡Cuenta registrada con éxito! Tu comprobante fue enviado a Google Drive.");
                         document.getElementById('register-form').reset();
                         switchTab('login');
 
@@ -674,7 +688,6 @@
             }
         };
 
-        // Escuchar solicitudes en tiempo real desde Panel Admin
         function escucharRegistrosAdmin() {
             const tbody = document.getElementById('admin-table-body');
             tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">Cargando usuarios registrados...</td></tr>`;
@@ -721,7 +734,7 @@
                 alert("¡Usuario APROBADO correctamente!");
             } catch (error) {
                 console.error("Error al aprobar:", error);
-                alert("No se pudo aprobar al usuario. Revisa las reglas de Firestore.");
+                alert("No se pudo aprobar al usuario.");
             }
         };
 
